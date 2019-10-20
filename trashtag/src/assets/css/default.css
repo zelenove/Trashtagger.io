@@ -1,0 +1,254 @@
+body {
+  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  line-height: 1.6em;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  letter-spacing: 0em;
+  line-height: 1.8em;
+  text-transform: none;
+  color: rgba(26, 26, 26, 0.75);
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+a {
+  text-decoration: none;
+  -webkit-transition: 250ms ease-in-out;
+  -moz-transition: 250ms ease-in-out;
+  -ms-transition: 250ms ease-in-out;
+  -o-transition: 250ms ease-in-out;
+  transition: 250ms ease-in-out;
+  cursor: pointer;
+}
+
+html {
+  min-height: 100%;
+  font-family: "Poppins", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: antialiased;
+}
+
+div {
+  display: block;
+}
+
+header {
+  position: absolute;
+  display: block;
+  width: 100%;
+  background: none;
+  color: #ffffff;
+  min-height: 80px;
+  z-index: 999;
+  margin-top: 15px;
+}
+header .logo {
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+header nav, header nav ul, header nav ul li {
+  margin: 0;
+  padding: 0;
+}
+header nav {
+  position: absolute;
+  top: 50%;
+  right: 75px;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+header nav ul li {
+  list-style-type: none;
+  display: inline-block;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  background-color: transparent;
+  padding-inline-start: 50px;
+}
+header nav ul li.last {
+  margin: 0;
+}
+header nav ul li a {
+  line-height: normal;
+  -webkit-transition: 250ms ease-in-out;
+  -moz-transition: 250ms ease-in-out;
+  -ms-transition: 250ms ease-in-out;
+  -o-transition: 250ms ease-in-out;
+  transition: 250ms ease-in-out;
+}
+header nav ul li a:visited {
+  color: #ffffff;
+}
+header nav ul li a:hover {
+  color: #00BFFF;
+}
+
+footer {
+  position: absolute;
+  display: block;
+  clear: both;
+  width: 100%;
+  color: #ffffff;
+  height: 65px;
+  bottom: 0;
+}
+footer .logo {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 2;
+}
+footer .copyright {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  font-size: 15px;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.background-lightgray {
+  background-color: #e6e6e6;
+}
+
+.background-black {
+  background-color: #010000;
+}
+
+.full-page {
+  height: 100vh;
+}
+
+.three-four-full-page {
+  height: 75vh;
+}
+
+.button-border-white {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+.button-border-white:hover {
+  background-color: #ffffff;
+}
+
+.button-transparent {
+  background-color: transparent;
+}
+.button-transparent:hover {
+  color: #010000;
+  -webkit-transition: 400ms ease-in-out;
+  -moz-transition: 400ms ease-in-out;
+  -ms-transition: 400ms ease-in-out;
+  -o-transition: 400ms ease-in-out;
+  transition: 400ms ease-in-out;
+  transition-duration: 250ms;
+}
+
+button {
+  line-height: 60px;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  height: 60px;
+  user-select: none;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.hero {
+  margin-bottom: 50px;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  z-index: 50;
+}
+
+.hero-block {
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 150;
+  height: 50%;
+}
+
+.hero-text {
+  color: #ffffff;
+  line-height: 60px;
+  max-width: 75%;
+  text-align: center;
+  margin: 0 auto 60px auto;
+  font-size: 3.5rem;
+}
+
+.hero-button {
+  width: 200px;
+  margin-right: 10px;
+  margin-bottom: 1em;
+}
+
+.hero#home {
+  background: linear-gradient(#010000, #010000);
+  background-image: url("../images/hero-home.jpg");
+}
+
+.header-bar {
+  height: 110px;
+  z-index: 100;
+  width: 100%;
+  margin-bottom: 100px;
+}
+
+.body-block {
+  width: 70%;
+  left: 15%;
+  position: absolute;
+  height: 100%;
+}
+
+.body-title {
+  font-size: 3.5em;
+  line-height: 3.5em;
+}
+
+.body-text {
+  font-size: 20px;
+  line-height: 2.2em;
+  color: #333;
+}
+
+/*# sourceMappingURL=default.css.map */

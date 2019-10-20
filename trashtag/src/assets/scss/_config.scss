@@ -1,0 +1,79 @@
+// Colour variables
+$black: #010000;
+$white: #ffffff;
+$lightGray: #e6e6e6;
+$darkGray: #333;
+$red: #ff1755;
+$skyBlue: #00BFFF;
+
+// Mixins
+@mixin translateY($e) {
+  -webkit-transform: translateY($e);
+  -moz-transform: translateY($e);
+  transform: translateY($e)
+}
+
+@mixin translateX($e) {
+  -webkit-transform: translateX($e);
+  -moz-transform: translateX($e);
+  transform: translateX($e)
+}
+
+@mixin translate($e, $f) {
+  -webkit-transform: translate($e, $f);
+  -moz-transform: translate($e, $f);
+  transform: translate($e, $f);
+}
+
+@mixin transition($values...) {
+  -webkit-transition: $values;
+  -moz-transition: $values;
+  -ms-transition: $values;
+  -o-transition: $values;
+  transition: $values;
+}
+
+@mixin font-smoothing($e) {
+  -webkit-font-smoothing: $e;
+  -moz-osx-font-smoothing: $e;
+}
+
+// Fonts
+@font-face {
+  font-family: "Poppins";
+  src: url("../../../node_modules/typeface-poppins/index.css")
+}
+
+// Default body style
+body {
+  min-height: 100%;
+  width: 100%;
+  max-width: 100%;
+  line-height: 1.6em;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  letter-spacing: 0em;
+  line-height: 1.8em;
+  text-transform: none;
+  color: rgba(26,26,26,.75);
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+// Default hyperlink style
+a {
+  text-decoration: none;
+  @include transition(250ms ease-in-out);
+  cursor: pointer;
+}
+
+html {
+  min-height: 100%;
+  font-family: "Poppins", sans-serif;
+  @include font-smoothing(antialiased);
+}
+
+div {
+  display: block;
+}

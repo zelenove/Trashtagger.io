@@ -1,0 +1,210 @@
+@import "_config.scss";
+
+header {
+  position: absolute;
+  display: block;
+  width: 100%;
+  background: none;
+  color: $white;
+  min-height: 80px;
+  z-index: 999;
+  margin-top: 15px;
+
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 100px;
+    @include translateY(-50%);
+  }
+
+  nav, nav ul, nav ul li {
+    margin: 0;
+    padding: 0;
+  }
+
+  nav {
+    position: absolute;
+    top: 50%;
+    right: 75px;
+    @include translateY(-50%);
+
+    ul li {
+      list-style-type: none;
+      display: inline-block;
+      vertical-align: middle;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      background-color: transparent;
+      padding-inline-start: 50px;
+
+      &.last {
+        margin: 0;
+      }
+
+      a {
+        line-height: normal;
+        @include transition(250ms ease-in-out);
+
+        &:visited {
+          color: $white;
+        }
+
+        &:hover {
+          color: $skyBlue;
+        }
+      }
+    }
+  }
+}
+
+footer {
+  position: absolute;
+  display: block;
+  clear: both;
+  width: 100%;
+  color: $white;
+  height: 65px;
+  bottom: 0;
+
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    @include translateY(-50%);
+    z-index: 2;
+  }
+
+  .copyright {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    font-size: 15px;
+    @include translateY(-50%);
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-white {
+  color: $white;
+}
+
+.background-lightgray {
+  background-color: $lightGray;
+}
+
+.background-black {
+  background-color: $black;
+}
+
+.full-page {
+  height: 100vh;
+}
+
+.three-four-full-page {
+  height: 75vh;
+}
+
+.button-border-white {
+  border-color: $white;
+  color: $white;
+
+  &:hover {
+    background-color: $white;
+  }
+}
+.button-transparent {
+  background-color: transparent;
+
+  &:hover {
+    color: $black;
+    @include transition(400ms ease-in-out);
+    transition-duration: 250ms;
+  }
+}
+
+button {
+  line-height: 60px;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  height: 60px;
+  user-select: none;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.hero {
+  margin-bottom: 50px;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  z-index: 50;
+}
+
+.hero-block {
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  @include translate(-50%, -50%);
+  z-index: 150;
+  height: 50%;
+}
+
+.hero-text {
+  color: $white;
+  line-height: 60px;
+  max-width: 75%;
+  text-align: center;
+  margin: 0 auto 60px auto;
+  font-size: 3.5rem;
+}
+
+.hero-button {
+  width: 200px;
+  margin-right: 10px;
+  margin-bottom: 1em;
+}
+
+.hero#home {
+  background: linear-gradient($black, $black);
+  background-image: url("../images/hero-home.jpg");
+}
+
+.header-bar {
+  height: 110px;
+  z-index: 100;
+  width: 100%;
+  margin-bottom: 100px;
+}
+
+.body-block {
+  width: 70%;
+  left: 15%;
+  position: absolute;
+  height: 100%;
+}
+
+.body-title {
+  font-size: 3.5em;
+  line-height: 3.5em;
+}
+
+.body-text {
+  font-size: 20px;
+  line-height: 2.2em;
+  color: $darkGray;
+}
