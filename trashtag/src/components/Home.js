@@ -3,7 +3,7 @@ import React from 'react';
 class Home extends React.Component {
   render() {
     return (
-      <section id = "home" className = "hero full-page">
+      <section id = "home" className = "page hero full-page">
         <div className = "hero-block">
           <h1 className = "hero-text text-white">
             Clean Up Your Community

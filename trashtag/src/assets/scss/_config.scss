@@ -38,12 +38,6 @@ $skyBlue: #00BFFF;
   -moz-osx-font-smoothing: $e;
 }
 
-// Fonts
-@font-face {
-  font-family: "Poppins";
-  src: url("../../../node_modules/typeface-poppins/index.css")
-}
-
 // Default body style
 body {
   min-height: 100%;
