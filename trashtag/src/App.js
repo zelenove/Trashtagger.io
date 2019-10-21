@@ -1,14 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './assets/css/default.css';
 import Home from './components/Home';
+import Header from './components/Header';
+import { SignIn, Register } from './components/FormPage';
 
 function App() {
   return (
     <div className="App">
-      <Home />
+        <Router>
+            <Header />
+            <Route exact path = "/" component = {Home} />
+            <Route exact path = "/register" component = {Register} />
+            <Route exact path = "/sign-in" component = {SignIn} />
+        </Router>
     </div>
   );
 }
