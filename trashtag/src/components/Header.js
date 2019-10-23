@@ -21,13 +21,16 @@ class NavItems extends React.Component {
         <nav>
             <ul>
                 <li className = "first">
-                <Link to = "/">Home</Link>
+                  <Link to = "/">Home</Link>
                 </li>
                 <li>
-                <Link to = "/sign-in">Sign In</Link>
+                  <Link to = "/trash-map">Trash Map</Link>
+                </li>
+                <li>
+                  <Link to = "/sign-in">Sign In</Link>
                 </li>
                 <li className="last">
-                <Link to = "/register">Register</Link>
+                  <Link to = "/register">Register</Link>
                 </li>
             </ul>
         </nav>
@@ -38,7 +41,7 @@ class NavItems extends React.Component {
 class Header extends React.Component {
   render() {
     return (
-      <header className = "header-bar">
+      <header>
         <Logo />
         <NavItems />
       </header>
