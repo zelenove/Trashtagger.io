@@ -9,7 +9,7 @@ class Home extends React.Component {
             Clean Up Your Community
           </h1>
         <button
-            className = "hero-button button-transparent button-border-white">
+            className = "hero-button button-transparent button-border-lg">
             Learn More
         </button>
         </div>

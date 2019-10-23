@@ -5,16 +5,21 @@ header {
   display: block;
   width: 100%;
   background: none;
-  color: $black;
+  color: $lightGreen;
   min-height: 80px;
   z-index: 999;
   margin-top: 15px;
 
-  .logo {
+  .logo-container {
     position: relative;
     top: 50%;
     left: 100px;
-    @include translateY(-50%);
+  }
+
+  .logo {
+    border-radius: 50%;
+    width: 64px;
+    height: auto;
   }
 
   nav, nav ul, nav ul li {
@@ -119,6 +124,16 @@ footer {
     background-color: $white;
   }
 }
+
+.button-border-lg {
+  border-color: $lightGreen;
+  color: $lightGreen;
+
+  &:hover {
+    background-color: $lightGreen;
+  }
+}
+
 .button-transparent {
   background-color: transparent;
 
@@ -179,9 +194,14 @@ button {
   width: 200px;
   margin-right: 10px;
   margin-bottom: 1em;
+
+  &:focus {
+    outline: 0;
+  }
 }
 
 .hero#home {
+  margin-bottom: 0;
   background: linear-gradient($black, $black);
   background-image: url("../images/hero-home.jpg");
   position: absolute;
@@ -214,7 +234,7 @@ button {
 .user-form {
   width: 500px;
   padding: 2em 2em 2em 2em;
-  background:white;
+  background: $white;
 }
 
 .form-input {
@@ -223,7 +243,7 @@ button {
   margin-bottom: 45px;
 
   label {
-      color: black;
+      color: $black;
       position: absolute;
       left: 5px;
       top: 5px;
@@ -238,7 +258,7 @@ button {
   width: 100%;
 
   &:focus {
-      border: 1px solid black;
+      border: 1px solid $black;
   }
 
   &:focus ~ label, &.not-empty ~ label {
@@ -252,5 +272,5 @@ button {
   margin: 0 auto;
   display: inline-block;
   text-align: center;
-  background: #2761cc;
+  color: $black;
 }

@@ -44,9 +44,7 @@ class SignIn extends React.Component {
             </form>
         );
 
-        return (
-            <FormPage form={form} />
-        );
+        return <FormPage form={form} />;
     }
 }
 
@@ -77,13 +75,11 @@ class Register extends React.Component {
                         onBlur={checkNotEmpty}/>
                     <label>Password</label>
                 </div>
-                <input className="form-submit" type="submit" value="Register"/>
+                <input className="form-submit button-transparent button-border-white" type="submit" value="Register"/>
             </form>
         );
 
-        return (
-            <FormPage form={form} />
-        );
+        return <FormPage form={form} />;
     }
 }
 
