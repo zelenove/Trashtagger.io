@@ -164,7 +164,7 @@ button {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  position: absolute;
+  position: relative;
   top: 0;
   display: flex;
   overflow: hidden;
@@ -201,16 +201,14 @@ button {
 }
 
 .hero#home {
-  margin-bottom: 0;
   background: linear-gradient($black, $black);
   background-image: url("../images/hero-home.jpg");
-  position: absolute;
 }
 
 .header-bar {
-  height: 110px;
   width: 100%;
-  margin-bottom: 100px;
+  position: absolute;
+  top: 0;
 }
 
 .body-block {
@@ -273,4 +271,34 @@ button {
   display: inline-block;
   text-align: center;
   color: $black;
+}
+
+.trending-container {
+  margin: 0 auto;
+  width: 75%;
+
+
+  h1 {
+    font-weight: bold;
+    font-size: 3.5em;
+  }
+
+
+  .trending-heading {
+    margin-bottom: 50px;
+  }
+
+  .trending-block {
+    margin-bottom: 50px;
+    height: 75vh;
+
+    h1 {
+      font-size: 2.5em;
+    }
+
+    .trending-img {
+      margin: 0 auto;
+      max-height: 75%;
+    }
+  }
 }

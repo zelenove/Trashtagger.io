@@ -8,7 +8,7 @@ class Logo extends React.Component {
     return (
         <div className="logo-container">
             <Link to = "/">
-                <img className = "logo" src = {logo} alt = ""></img>
+                <img className = "logo" src = {logo} alt = "Logo"></img>
             </Link>
         </div>
     );
@@ -38,7 +38,7 @@ class NavItems extends React.Component {
 class Header extends React.Component {
   render() {
     return (
-      <header>
+      <header className = "header-bar">
         <Logo />
         <NavItems />
       </header>
