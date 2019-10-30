@@ -26,6 +26,9 @@ class NavItems extends React.Component {
           <li>
             <Link to = "/trash-map">Trash Map</Link>
           </li>
+          <li>
+            <h3 style={{color: "white"}}>Welcome {this.props.userName}</h3>
+          </li>
         </React.Fragment>
       )
     } else {
@@ -65,7 +68,8 @@ class Header extends React.Component {
     return (
       <header>
         <Logo />
-        <NavItems userIsLoggedIn={this.props.userIsLoggedIn}/>
+        <NavItems userIsLoggedIn={this.props.userIsLoggedIn}
+                  userName={this.props.userName}/>
       </header>
     );
   }

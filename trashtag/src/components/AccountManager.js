@@ -5,8 +5,8 @@ import Header from './Header';
 class Account extends React.Component{
   // userIsLoggedIn should be defaulted to "false", "true" for debugging
   state = {
-    userEmail: "",
-    userIsLoggedIn: false
+    userName: "Guest",
+    userIsLoggedIn: true
   }
 
   userLogIn(email, password){
@@ -15,7 +15,9 @@ class Account extends React.Component{
   }
 
   render(){
-    return <Header userIsLoggedIn={this.state.userIsLoggedIn}/>
+    return <Header
+              userIsLoggedIn={this.state.userIsLoggedIn}
+              userName={this.state.userName}/>
   }
 
 }

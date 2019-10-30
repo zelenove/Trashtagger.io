@@ -6,13 +6,13 @@ import Home from './components/Home';
 //import Header from './components/Header';
 import TrashMap from './components/TrashMap';
 import { SignIn, Register } from './components/FormPage';
-import Account from './components/Account';
+import AccountManager from './components/AccountManager';
 
 function App() {
   return (
     <div className="App">
         <Router>
-            <Account />
+            <AccountManager />
             <Route exact path = "/" component = {Home} />
             <Route exact path = "/trash-map" component = {TrashMap} />
             <Route exact path = "/register" component = {Register} />
