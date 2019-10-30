@@ -16,22 +16,44 @@ class Logo extends React.Component {
 }
 
 class NavItems extends React.Component {
+  generateNavBar(){
+    if(this.props.userIsLoggedIn){
+      return (
+        <React.Fragment>
+          <li className = "first">
+            <Link to = "/">Home</Link>
+          </li>
+          <li>
+            <Link to = "/trash-map">Trash Map</Link>
+          </li>
+        </React.Fragment>
+      )
+    } else {
+      return (
+        <React.Fragment>
+          <li className = "first">
+            <Link to = "/">Home</Link>
+          </li>
+          <li>
+            <Link to = "/trash-map">Trash Map</Link>
+          </li>
+          <li>
+            <Link to = "/sign-in">Sign In</Link>
+          </li>
+          <li className="last">
+          <Link to = "/register">Register</Link>
+          </li>
+        </React.Fragment>
+    );
+    }
+  }
+
   render() {
-    return (
+    var listItems = this.generateNavBar();
+    return(
         <nav>
             <ul>
-                <li className = "first">
-                  <Link to = "/">Home</Link>
-                </li>
-                <li>
-                  <Link to = "/trash-map">Trash Map</Link>
-                </li>
-                <li>
-                  <Link to = "/sign-in">Sign In</Link>
-                </li>
-                <li className="last">
-                  <Link to = "/register">Register</Link>
-                </li>
+                {listItems}
             </ul>
         </nav>
     );
@@ -43,7 +65,7 @@ class Header extends React.Component {
     return (
       <header>
         <Logo />
-        <NavItems />
+        <NavItems userIsLoggedIn={this.props.userIsLoggedIn}/>
       </header>
     );
   }

@@ -24,8 +24,9 @@ class SignIn extends React.Component {
     }
 
     render() {
-        const form = (
-            <form id="sign-in" className = "user-form">
+        return(
+            //<form id="sign-in" className = "user-form">
+            <div>
                 <div className="form-input">
                     <input className="form-field" type="text"
                         name="email"
@@ -40,11 +41,12 @@ class SignIn extends React.Component {
                         onBlur={checkNotEmpty}/>
                     <label>Password</label>
                 </div>
-                <input className="form-submit" type="submit" value="Sign In"/>
-            </form>
+                <button onClick={this.props.userLogIn}>Sign In</button>
+              </div>
+            //</form>
         );
 
-        return <FormPage form={form} />;
+        //return <FormPage form={form} />;
     }
 }
 
