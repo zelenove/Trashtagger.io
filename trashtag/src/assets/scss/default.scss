@@ -5,11 +5,10 @@ header {
   display: block;
   width: 100%;
   top: 0;
-  background: none;
-  color: $lightGreen;
+  background-color: green;
+  color: white;
   min-height: 80px;
   z-index: 999;
-  margin-top: 15px;
 
   .logo-container {
     position: relative;
@@ -21,6 +20,7 @@ header {
     border-radius: 50%;
     width: 64px;
     height: auto;
+    margin-top: 10px;
   }
 
   nav, nav ul, nav ul li {
@@ -233,10 +233,26 @@ button {
   color: $darkGray;
 }
 
+.user-form-container {
+  display: inline-block;
+  border: 1px solid gray;
+}
+
+.user-form-header {
+
+}
+
 .user-form {
   width: 500px;
   padding: 2em 2em 2em 2em;
   background: $white;
+}
+
+.form-page-container {
+  height: 100%;
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .form-input {
@@ -275,6 +291,14 @@ button {
   display: inline-block;
   text-align: center;
   color: $black;
+  outline: none;
+
+  &:hover {
+    color: white;
+    background-color: green;
+    border: 1px solid gray;
+    transition: 0.2s ease-in-out;
+  }
 }
 
 .trending-container {

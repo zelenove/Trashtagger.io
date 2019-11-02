@@ -6,8 +6,10 @@ class FormPage extends React.Component {
 
         return (
             // Load rest of elements here and insert the form somewhere
-            <div className = "page">
-                {form}
+            <div className="form-page-container">
+                <div className="user-form-container">
+                    {form}
+                </div>
             </div>
         )
     }
@@ -24,29 +26,30 @@ class SignIn extends React.Component {
     }
 
     render() {
-        return(
-            //<form id="sign-in" className = "user-form">
+        const form = (
             <div>
-                <div className="form-input">
-                    <input className="form-field" type="text"
-                        name="email"
-                        onChange={onFormInputChange.bind(this)}
-                        onBlur={checkNotEmpty}/>
-                    <label>Email</label>
-                </div>
-                <div className="form-input">
-                    <input className="form-field" type="text"
-                        name="password"
-                        onChange={onFormInputChange.bind(this)}
-                        onBlur={checkNotEmpty}/>
-                    <label>Password</label>
-                </div>
-                <button onClick={this.props.userLogIn}>Sign In</button>
-              </div>
-            //</form>
+                <h3 className="user-form-header">Sign In</h3>
+                <form id="sign-in" className="user-form">
+                    <div className="form-input">
+                        <input className="form-field" type="text"
+                            name="email"
+                            onChange={onFormInputChange.bind(this)}
+                            onBlur={checkNotEmpty} />
+                        <label>Email</label>
+                    </div>
+                    <div className="form-input">
+                        <input className="form-field" type="text"
+                            name="password"
+                            onChange={onFormInputChange.bind(this)}
+                            onBlur={checkNotEmpty} />
+                        <label>Password</label>
+                    </div>
+                    <button className="form-submit" onClick={this.props.userLogIn}>Sign In</button>
+                </form>
+            </div>
         );
 
-        //return <FormPage form={form} />;
+        return <FormPage form={form} />;
     }
 }
 
@@ -62,22 +65,22 @@ class Register extends React.Component {
 
     render() {
         const form = (
-            <form id="register" className = "user-form">
+            <form id="register" className="user-form">
                 <div className="form-input">
                     <input className="form-field" type="text"
                         name="email"
                         onChange={onFormInputChange.bind(this)}
-                        onBlur={checkNotEmpty}/>
+                        onBlur={checkNotEmpty} />
                     <label>Email</label>
                 </div>
                 <div className="form-input">
                     <input className="form-field" type="text"
                         name="password"
                         onChange={onFormInputChange.bind(this)}
-                        onBlur={checkNotEmpty}/>
+                        onBlur={checkNotEmpty} />
                     <label>Password</label>
                 </div>
-                <input className="form-submit button-transparent button-border-white" type="submit" value="Register"/>
+                <input className="form-submit button-transparent button-border-white" type="submit" value="Register" />
             </form>
         );
 
@@ -99,7 +102,7 @@ function onFormInputChange(event) {
 // To make the form labels work
 function checkNotEmpty(event) {
     const element = event.target;
-    if(element.value) {
+    if (element.value) {
         element.classList.add("not-empty");
     }
     else {
