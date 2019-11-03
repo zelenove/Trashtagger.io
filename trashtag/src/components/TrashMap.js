@@ -1,5 +1,5 @@
 import React from 'react';
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
 class TrashMap extends React.Component {
   constructor() {
@@ -7,6 +7,7 @@ class TrashMap extends React.Component {
 
     this.state = {
       // Not sure what to add yet
+      markers: []
     }
   }
 
@@ -15,19 +16,37 @@ class TrashMap extends React.Component {
   }
 
   createCleanupRequests() {
-    // Create the pin and pass the request along here
-    // To be used only if a user is logged in
+
   }
 
   render() {
     // Would get the markers from the db
-    const markers = [];
+    // Some random api key off stack overflow
+    const mapURL = 'https://maps.googleapis.com/maps/api/js?v=3.27&libraries=places,geometry&key=AIzaSyA7XEFRxE4Lm28tAh44M_568fCLOP_On3k';
+    const markers = this.state.markers.map((marker) => {
+      return (
+        <Marker
+          {...marker} />
+      )
+    })
 
-    return withGoogleMap(
-      <GoogleMap >
-        {markers}
-      </GoogleMap>
-    );
+    const Map = withScriptjs(withGoogleMap((props) => {
+      return (
+        <GoogleMap
+          defaultZoom={8}
+          defaultCenter={{ lat: -34.397, lng: 150.644 }}>
+          {markers}
+        </GoogleMap >
+      )
+    }))
+
+    return (
+      <Map isMarkerShown={true}
+        containerElement={this.props.containerElement}
+        mapElement={<div className="trashmap-map-element"/>}
+        googleMapURL={mapURL}
+        loadingElement={<div className="trashmap-loading-element"/>} />
+    )
   }
 }
 
