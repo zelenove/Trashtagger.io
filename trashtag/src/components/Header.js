@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import logo from "../assets/images/logo.png";
 
+
 class Logo extends React.Component {
   render() {
     return (
@@ -30,7 +31,7 @@ class NavItems extends React.Component {
             <Link to="/create-request">Create Request</Link>
           </li>
           <li>
-            <h3 style={{ color: "white" }}>Welcome {this.props.userName}</h3>
+            <h3 className="user-header-text">Welcome, {this.props.userName}</h3>
           </li>
         </React.Fragment>
       )
@@ -47,10 +48,11 @@ class NavItems extends React.Component {
             <Link to="/create-request">Create Request</Link>
           </li>
           <li>
-            <Link to="/sign-in">Sign In</Link>
+            <Link to={{pathname:"/sign-in"}}>Sign In</Link>
+
           </li>
           <li className="last">
-            <Link to="/register">Register</Link>
+            <Link to={{pathname:"/register"}}>Register</Link>
           </li>
         </React.Fragment>
       );
@@ -75,7 +77,8 @@ class Header extends React.Component {
       <header>
         <Logo />
         <NavItems userIsLoggedIn={this.props.userIsLoggedIn}
-          userName={this.props.userName} />
+                  userName={this.props.userName}
+                  />
       </header>
     );
   }

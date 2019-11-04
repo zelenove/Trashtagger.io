@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class FormPage extends React.Component {
     render() {
@@ -23,18 +23,26 @@ class SignIn extends React.Component {
         this.state = {
             email: "",
             password: "",
+            loggedIn: false
         }
+    }
+
+    signIn(e){
+      e.preventDefault();
+      if(this.props.signInCallback(this.state.email, this.state.password)){
+        console.log(this.props);
+        this.setState({loggedIn: true})
+      }
     }
 
     render() {
         const emailEmpty = checkNotEmpty.bind(this)("email")
         const passwordEmpty = checkNotEmpty.bind(this)("password")
-
         const form = (
             <div>
                 <h2 className="user-form-header">Sign In</h2>
                 <form id="sign-in" className="user-form"
-                    onSubmit={this.props.userLogIn}>
+                    onSubmit={this.signIn.bind(this)}>
                     <div className="form-input">
                         <input className={`form-field ${emailEmpty}`}
                             type="text"
@@ -58,11 +66,14 @@ class SignIn extends React.Component {
                     </Link>
                     <input type="submit"
                         className="form-submit button-border-g"
-                        value="Sign In" />
+                        value="Sign In"
+                        />
                 </form>
             </div>
         );
-
+        if(this.state.loggedIn){
+          return <Redirect to="/" />
+        }
         return <FormPage form={form} />;
     }
 }
@@ -73,8 +84,16 @@ class Register extends React.Component {
 
         this.state = {
             email: "",
-            password: "", // Can add date of birth and other stuff later
+            password: "",
+            signedUp: false // Can add date of birth and other stuff later
         }
+    }
+
+    signUp(e){
+      e.preventDefault();
+      if(this.props.signUpCallback(this.state.email, this.state.password)){
+        this.setState({signedUp:true});
+      }
     }
 
     render() {
@@ -84,7 +103,7 @@ class Register extends React.Component {
         const form = (
             <div>
                 <h2 className="user-form-header">Register</h2>
-                <form id="register" className="user-form">
+                <form id="register" className="user-form" onSubmit={this.signUp.bind(this)}>
                     <div className="form-input">
                         <input className={`form-field ${emailEmpty}`}
                             type="text"
@@ -103,11 +122,14 @@ class Register extends React.Component {
                     </div>
                     <input type="submit"
                         className="form-submit button-border-g"
-                        value="Register" />
+                        value="Register"
+                         />
                 </form>
             </div>
         );
-
+        if(this.state.signedUp){
+          return <Redirect to="/sign-in" />
+        }
         return <FormPage form={form} />;
     }
 }
