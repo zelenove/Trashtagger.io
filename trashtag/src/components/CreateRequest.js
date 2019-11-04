@@ -9,10 +9,22 @@ class CreateRequest extends React.Component {
 
         this.state = {
             title: "",
-            description: ""
+            description: "",
+            markerPosition: null
         }
     }
 
+    moveMarker = (event) => {
+        const { lat, lng } = event.latLng;
+
+        this.setState({
+            markerPosition: {
+                lat: lat(),
+                lng: lng()
+            }
+        })
+    }
+  
     createCleanupRequest = (event) => {
         event.preventDefault();
         // To be used only if a user is logged in
@@ -24,6 +36,11 @@ class CreateRequest extends React.Component {
         // when the user types in a text box
         const titleEmpty = checkNotEmpty.bind(this)("title")
         const descriptionEmpty = checkNotEmpty.bind(this)("description")
+        const marker = !this.state.markerPosition ? [] :
+        [{
+            name: this.state.title,
+            position: this.state.markerPosition
+        }]
 
         return (
             <div className="trash-page-container trashmap-container-full">
@@ -55,6 +72,8 @@ class CreateRequest extends React.Component {
                         </div>
                         <div className="trash-map-embed">
                             <TrashMap
+                                onMapClick={this.moveMarker}
+                                markers={marker}
                                 containerElement={<div className="trashmap-container-half-right" />} />
                         </div>
                         <input type="submit"
