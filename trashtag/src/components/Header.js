@@ -22,7 +22,7 @@ class NavItems extends React.Component {
       return (
         <React.Fragment>
           <li className="first">
-            <h3 className="user-header-text">Welcome, {this.props.userName}</h3>
+            <h3 className="user-header-text">Welcome {this.props.userName}</h3>
           </li>
           <li>
             <Link to="/">Home</Link>

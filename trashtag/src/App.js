@@ -17,7 +17,7 @@ class App extends React.Component{
     this.state={
       userName: "Guest",
       userIsLoggedIn: false,
-      credentials: [["Guest", "123"]]
+      credentials: [["user", "user" ], ["admin", "admin"]]
     }
   }
 
@@ -61,7 +61,7 @@ class App extends React.Component{
                 <Route exact path = "/sign-in" render = {(props) => <SignIn signInCallback={this.userLogIn.bind(this)} />} />
                 <Route exact path = "/create-request" component = {CreateRequest} />
                 <Route exact path = "/cleanups" component = {Cleanups} />
-                <Route exact path = "/profile" component = {Profile} />
+                <Route exact path = "/profile" render = {(props) => <Profile userName={this.state.userName} />} />
               </div>
           </Router>
       </div>

@@ -27,7 +27,8 @@ class SignIn extends React.Component {
         }
     }
 
-    signIn(e){
+    signIn = (e) => {
+
       e.preventDefault();
       if(this.props.signInCallback(this.state.email, this.state.password)){
         console.log(this.props);
@@ -89,7 +90,7 @@ class Register extends React.Component {
         }
     }
 
-    signUp(e){
+    signUp = (e) => {
       e.preventDefault();
       if(this.props.signUpCallback(this.state.email, this.state.password)){
         this.setState({signedUp:true});

@@ -7,9 +7,6 @@ import tt3 from "../assets/images/uploads/tt3.jpg";
 
 class Cleanups extends React.Component {
     render() {
-        const numPics = 3;
-
-        // Would get the numPics most trending pictures here
         const pics = [["Woodbine Beach", tt1],
         ["Brent National Park", tt2],
         ["Kensley Lake", tt3]]
