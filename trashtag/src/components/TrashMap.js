@@ -133,14 +133,32 @@ class TrashMap extends React.Component {
     const loadingElement = <div className="trashmap-loading-element" />
 
     // This info would be pulled from the database, static for now
-    const trashInfo = [(
-      <div className="trashmap-info-block">
-        <div className="trashmap-info-text">
-          <h3>Queen's Park</h3>
-          Severity: High
+    const trashInfo = [
+      (
+        <div className="trashmap-info-block">
+          <div className="trashmap-info-text">
+            <h3>Queen's Park</h3>
+            Severity: High
+          </div>
         </div>
-      </div>
-    )]
+      ),
+      (
+        <div className="trashmap-info-block">
+          <div className="trashmap-info-text">
+            <h3>Bolton's Ranch</h3>
+            Severity: Medium
+          </div>
+        </div>
+      ),
+      (
+        <div className="trashmap-info-block">
+          <div className="trashmap-info-text">
+            <h3>Niagara Falls</h3>
+            Severity: Low
+          </div>
+        </div>
+      ),
+    ]
 
     return (
       <div className="trashmap-all-container">
