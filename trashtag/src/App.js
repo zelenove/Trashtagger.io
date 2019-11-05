@@ -8,6 +8,8 @@ import TrashMapPage from './components/TrashMapPage';
 import { SignIn, Register } from './components/FormPage';
 //import AccountManager from './components/AccountManager';
 import CreateRequest from "./components/CreateRequest";
+import Cleanups from "./components/Cleanups";
+import Profile from "./components/Profile";
 
 class App extends React.Component{
   constructor(){
@@ -58,6 +60,8 @@ class App extends React.Component{
                 <Route exact path = "/register" render = {(props) => <Register signUpCallback={this.userSignUp.bind(this)} />} />
                 <Route exact path = "/sign-in" render = {(props) => <SignIn signInCallback={this.userLogIn.bind(this)} />} />
                 <Route exact path = "/create-request" component = {CreateRequest} />
+                <Route exact path = "/cleanups" component = {Cleanups} />
+                <Route exact path = "/profile" component = {Profile} />
               </div>
           </Router>
       </div>

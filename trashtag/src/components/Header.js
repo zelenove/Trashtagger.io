@@ -22,7 +22,13 @@ class NavItems extends React.Component {
       return (
         <React.Fragment>
           <li className="first">
+            <h3 className="user-header-text">Welcome, {this.props.userName}</h3>
+          </li>
+          <li>
             <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/cleanups">Cleanups</Link>
           </li>
           <li>
             <Link to="/trash-map">Trash Map</Link>
@@ -31,7 +37,7 @@ class NavItems extends React.Component {
             <Link to="/create-request">Create Request</Link>
           </li>
           <li>
-            <h3 className="user-header-text">Welcome, {this.props.userName}</h3>
+            <Link to="/profile">Profile</Link>
           </li>
         </React.Fragment>
       )
@@ -42,10 +48,10 @@ class NavItems extends React.Component {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/trash-map">Trash Map</Link>
+            <Link to="/cleanups">Cleanups</Link>
           </li>
           <li>
-            <Link to="/create-request">Create Request</Link>
+            <Link to="/trash-map">Trash Map</Link>
           </li>
           <li>
             <Link to={{pathname:"/sign-in"}}>Sign In</Link>
