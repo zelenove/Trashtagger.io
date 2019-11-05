@@ -3,7 +3,7 @@ import {
   withScriptjs, withGoogleMap, GoogleMap,
   Marker, InfoWindow
 } from 'react-google-maps';
-
+import StandaloneSearchBox from "react-google-maps/lib/components/places/StandaloneSearchBox";
 import placesRequest from "./google-maps-api/places";
 
 class TrashMap extends React.Component {
@@ -43,12 +43,19 @@ class TrashMap extends React.Component {
     }
 
     this.map = React.createRef()
+    this.selectedMarker = React.createRef()
   }
 
-  onMarkerClick = (event) => {
-    // Just a test api call
-    const marker = event.target;
+  onSearchSelected = (place) => {
 
+  }
+
+  onMarkerClick = (marker) => {
+    const { lat, lng } = marker.latLng
+
+    this.selectedMarker.current = marker
+
+    // Just a test api call
     const request = {
       location: this.map.center,
       radius: '500',
@@ -84,15 +91,19 @@ class TrashMap extends React.Component {
     // Some random api key off stack overflow
     const mapURL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,geometry&key=AIzaSyA7XEFRxE4Lm28tAh44M_568fCLOP_On3k';
     const markers = this.state.markers.map((marker) => this.makeMarkerObj(marker))
-    const propMarkers = this.props.markers.map((marker) => {
-      const markerOb = {
-        id: markers.length, // Temporary id for show
-        name: marker.name,
-        position: marker.position
-      }
 
-      return this.makeMarkerObj(markerOb)
-    })
+    let propMarkers;
+    if (this.props.markers) {
+      propMarkers = this.props.markers.map((marker) => {
+        const markerOb = {
+          id: markers.length, // Temporary id for show
+          name: marker.name,
+          position: marker.position
+        }
+
+        return this.makeMarkerObj(markerOb)
+      })
+    }
 
     const Map = withScriptjs(withGoogleMap((props) => {
       return (
@@ -108,12 +119,47 @@ class TrashMap extends React.Component {
       )
     }))
 
+    const SearchBoxPane = withScriptjs((props) => {
+      return (
+        <StandaloneSearchBox
+          onPlacesChanged={this.onSearchSelected}>
+          <input type="text" placeholder="Search for a trash site" />
+        </StandaloneSearchBox>
+      )
+    })
+
+    const mapContainer = <div className="trashmap-container" />
+    const mapElement = <div className="trashmap-map-element" />
+    const loadingElement = <div className="trashmap-loading-element" />
+
+    // This info would be pulled from the database, static for now
+    const trashInfo = [(
+      <div className="trashmap-info-block">
+        <div className="trashmap-info-text">
+          <h3>Queen's Park</h3>
+          Severity: High
+        </div>
+      </div>
+    )]
+
     return (
-      <Map isMarkerShown={true}
-        containerElement={this.props.containerElement}
-        mapElement={<div className="trashmap-map-element" />}
-        googleMapURL={mapURL}
-        loadingElement={<div className="trashmap-loading-element" />} />
+      <div className="trashmap-all-container">
+        <div className="trashmap-sidepane">
+          <div className="trashmap-search-box">
+            <SearchBoxPane
+              googleMapURL={mapURL}
+              loadingElement={<div className="trashmap-search-box" />} />
+          </div>
+          <div className="trashmap-info-pane">
+            {trashInfo}
+          </div>
+        </div>
+        <Map isMarkerShown={true}
+          containerElement={mapContainer}
+          mapElement={mapElement}
+          googleMapURL={mapURL}
+          loadingElement={loadingElement} />
+      </div>
     )
   }
 }

@@ -14,8 +14,8 @@ class CreateRequest extends React.Component {
         }
     }
 
-    moveMarker = (event) => {
-        const { lat, lng } = event.latLng;
+    moveMarker = (marker) => {
+        const { lat, lng } = marker.latLng;
 
         this.setState({
             markerPosition: {
