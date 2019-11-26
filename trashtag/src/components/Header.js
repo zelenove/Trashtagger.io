@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/logo2.png";
 
 
 class Logo extends React.Component {
@@ -79,8 +79,10 @@ class NavItems extends React.Component {
 
 class Header extends React.Component {
   render() {
+    console.log(this.props.userIsLoggedIn)
+    console.log(this.props.location.pathname)
     return (
-      <header>
+      <header className={this.props.location.pathname === "/" ? "transparent" : null}>
         <Logo />
         <NavItems userIsLoggedIn={this.props.userIsLoggedIn}
                   userName={this.props.userName}
@@ -90,4 +92,4 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+export default withRouter(Header);

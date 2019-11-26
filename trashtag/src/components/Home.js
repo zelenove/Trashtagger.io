@@ -36,11 +36,11 @@ class Home extends React.Component {
         <div className = "page hero full-page">
           <div id = "home-hero-block" className = "hero-block">
             <h1 className = "hero-text text-white">
-              Clean Up Your Community
+              HELP KEEP YOUR<br />COMMUNITY CLEAN.
             </h1>
             <button
                 className = "hero-button button-transparent button-border-lg">
-                Learn More
+                LEARN MORE
             </button>
           </div>
         </div>

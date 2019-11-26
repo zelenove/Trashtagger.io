@@ -221,6 +221,9 @@ header {
         header nav ul li a:hover {
           color: #00BFFF; }
 
+.transparent {
+  background-color: transparent; }
+
 footer {
   position: absolute;
   display: block;
@@ -323,7 +326,7 @@ button {
   width: 100%;
   max-width: 1200px;
   position: absolute;
-  left: 50%;
+  left: 30%;
   top: 55%;
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
