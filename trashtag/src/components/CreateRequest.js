@@ -39,6 +39,20 @@ class CreateRequest extends React.Component {
         return true
     }
 
+    showWidget = () => {
+        window.cloudinary.openUploadWidget({
+            cloudName: "trashcloud",
+            uploadPreset: "trashtag_crop",
+            sources: ["local"],
+            cropping: true,
+            multiple: false,
+            singleUploadAutoClose: false,
+            showSkipCropButton: false,
+            croppingAspectRatio: 1,
+            croppingCoordinatesMode: "custom"
+        })
+    }
+
     render() {
 
         // Likely a good idea to customize rendering to not reload the map
@@ -78,11 +92,15 @@ class CreateRequest extends React.Component {
                                 rows="5"
                                 required />
                         </div>
+
                         <div className="trash-map-embed">
                             <TrashMap
                                 onMapClick={this.moveMarker}
                                 markers={marker}
                                 containerElement={<div className="trashmap-container-half-right" />} />
+                        </div>
+                        <div>
+                            <button className="button-border-g" onClick={this.showWidget}>Upload Photo</button>
                         </div>
                         <input type="submit"
                             className="form-submit button-border-g"
