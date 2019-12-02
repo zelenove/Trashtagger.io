@@ -11,24 +11,25 @@ import tt3 from "../assets/images/uploads/tt3.jpg";
 const Arrow = ({ text, className }) => {
   return (
     <div
-      className={className}
+      className='scroll-menu-arrow'
     >{text}</div>
   );
 };
-const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev' });
-const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
+const ArrowLeft = Arrow({ text: '<' });
+const ArrowRight = Arrow({ text: '>' });
 
-const MenuItem = ({img, selected}) => {
+const MenuItem = ({img, name, selected}) => {
+  console.log({img, name, selected});
   return <div
     className={`menu-item ${selected ? 'active' : ''}`}
-    ><img src={img} /></div>;
+    ><h1>{name}</h1><img src={img} /></div>;
 };
 
 export const Menu = (list, selected) =>
   list.map(el => {
     const {name, img} = el;
 
-    return <MenuItem img={img} key={name} selected={selected} />;
+    return <MenuItem img={img} key={name} selected={selected} name={name} />;
   });
 
 
@@ -38,32 +39,33 @@ class Home extends React.Component {
 
 
     // Would get the numPics most trending pictures here
-    const pics = [["Woodbine Beach", tt1],
-                  ["Brent National Park", tt2],
-                  ["Kensley Lake", tt3]]
+    // const pics = [["Woodbine Beach", tt1],
+    //               ["Brent National Park", tt2],
+    //               ["Kensley Lake", tt3]]
 
     const pics2 = [{name: "Woodbine Beach", img: tt1},
                     {name: "Brent National Park", img: tt2},
                     {name: "Kensley Lake", img: tt3}];
-    let selected = "Woodbine Beach";
+
+    let selected = "Brent National Park";
 
     const menuItems = Menu(pics2, selected);
 
-    const picRows = pics.map((picRow) => {
-      const name = picRow[0];
-      const pic = picRow[1];
-      return (
-        <div key = {pic} className = "trending-block">
-          <h1>{name}</h1>
-          <Link to = "/">
-            <img className = "trending-img" src = {pic} alt={name}></img>
-          </Link>
-        </div>);}
-      );
+    // const picRows = pics.map((picRow) => {
+    //   const name = picRow[0];
+    //   const pic = picRow[1];
+    //   return (
+    //     <div key = {pic} className = "trending-block">
+    //       <h1>{name}</h1>
+    //       <Link to = "/">
+    //         <img className = "trending-img" src = {pic} alt={name}></img>
+    //       </Link>
+    //     </div>);}
+    //   );
 
     return (
       <div>
-        <div className = "page hero full-page">
+        <div className = {"page hero full-page"}>
         <img id="home-hero-img" className = "hero-img" src = {homeHero}
         alt="Community Cleanup"></img>
           <div id = "home-hero-block" className = "hero-block">
@@ -85,6 +87,7 @@ class Home extends React.Component {
             selected={selected}
             onSelect={this.onSelect}
             wheel={false}
+            itemClass={'innerWrapper'}
           />
         </div>
       </div>
