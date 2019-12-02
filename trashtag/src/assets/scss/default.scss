@@ -268,6 +268,13 @@ button {
   background: $white;
 }
 
+.user-form-error {
+  width: 500px;
+  background-color: $lightRed;
+  color: $red;
+  padding: 0.5em 0 0.5em 0;
+}
+
 .user-form-subtext {
   display: flex;
   color: blue;
@@ -305,11 +312,6 @@ button {
 
   &:focus {
       border: 1px solid $black;
-  }
-
-  &:focus ~ label, &.not-empty ~ label {
-      top: -20px;
-      transform: scale(.75); left: -2px;
   }
 }
 

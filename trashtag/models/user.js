@@ -46,29 +46,63 @@ UserSchema.pre('save', function(next) {
 	}
 })
 
-// A static method on the document model.
-// Allows us to find a User document by comparing the hashed password
-//  to a given one, for example when logging in.
-UserSchema.statics.findByEmailPassword = function(email, password) {
-	const User = this // binds this to the User model
-
-	// First find the user by their email
-	return User.findOne({ email: email }).then((user) => {
-		if (!user) {
-			return Promise.reject()  // a rejected promise
-		}
-		// if the user exists, make sure their password is correct
+// A class of functions for the user schema
+class UserClass {
+	// Find by email, to check while registering
+	static findByEmail(email) {
 		return new Promise((resolve, reject) => {
-			bcrypt.compare(password, user.password, (err, result) => {
-				if (result) {
+			return this.findOne({
+				email: email
+			})
+			.then((user) => {
+				if (!user) {
+					reject({
+						status: 400,
+						message: "That email is not registered"
+					})  // a rejected promise
+				}
+				else {
 					resolve(user)
-				} else {
-					reject()
 				}
 			})
+			.catch((error) => {
+				reject({
+					status: 500,
+					message: "Error processing your request"
+				})
+			})			
 		})
-	})
+	}
+
+	// Allows us to find a User document by comparing the hashed password
+	//  to a given one, for example when logging in.
+	static findByEmailPassword(email, password) {
+		// First find the user by their email
+		return new Promise((resolve, reject) => {
+			return this.findByEmail(email).then((user) => {
+				bcrypt.compare(password, user.password, (err, result) => {
+					if (result) {
+						resolve(user)
+					}
+					else {
+						reject({
+							status: 400,
+							message: "Incorrect password"
+						})
+					}
+				})
+			})
+			.catch((error) => {
+				reject({
+					status: 500,
+					message: "Error processing your request"
+				})
+			})
+		})
+	}
 }
+
+UserSchema.loadClass(UserClass)
 
 // make a model using the User schema
 const User = mongoose.model('User', UserSchema)

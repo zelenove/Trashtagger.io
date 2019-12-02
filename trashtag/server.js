@@ -5,6 +5,9 @@ const express = require("express");
 // starting the express server
 const app = express();
 
+// The routes
+const userRoute = require("./routes/user");
+
 // mongoose and mongo connection
 const { mongoose } = require("./db/mongoose");
 
@@ -35,45 +38,11 @@ app.use(
     })
 );
 
-app.post("/users/login", (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-
-    log(email, password);
-    // Use the static method on the User model to find a user
-    // by their email and password
-    User.findByEmailPassword(email, password)
-        .then(user => {
-            // Add the user's id to the session cookie.
-            // We can check later if this exists to ensure we are logged in.
-            req.session.user = user._id;
-            req.session.email = user.email;
-            res.send({ currentUser: user.email });
-        })
-        .catch(error => {
-            res.status(400).send()
-        });
-});
-
-app.post("/users", (req, res) => {
-    log(req.body);
-
-    // Create a new user
-    const user = new User({
-        email: req.body.email,
-        password: req.body.password
-    });
-
-    // Save the user
-    user.save().then(
-        user => {
-            res.send(user);
-        },
-        error => {
-            res.status(400).send(error); // 400 for bad request
-        }
-    );
-});
+app.use("*", (req, res, next) => {
+    console.log(req)
+    next()
+})
+app.use("/", userRoute);
 
 
 /*** Webpage routes below **********************************/

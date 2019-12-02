@@ -394,6 +394,12 @@ button {
   padding: 2em 2em 2em 2em;
   background: #ffffff; }
 
+.user-form-error {
+  width: 500px;
+  background-color: #ff6666;
+  color: #ff1755;
+  padding: 0.5em 0 0.5em 0; }
+
 .user-form-subtext {
   display: flex;
   color: blue;
@@ -425,10 +431,6 @@ button {
   width: 100%; }
   .form-field:focus, .form-text-area:focus {
     border: 1px solid #010000; }
-  .form-field:focus ~ label, .form-field.not-empty ~ label, .form-text-area:focus ~ label, .form-text-area.not-empty ~ label {
-    top: -20px;
-    transform: scale(0.75);
-    left: -2px; }
 
 .form-text-area {
   word-wrap: break-word; }

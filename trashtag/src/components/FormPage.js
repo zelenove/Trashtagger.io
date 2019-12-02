@@ -9,7 +9,13 @@ class FormPage extends React.Component {
             // Load rest of elements here and insert the form somewhere
             <div className="form-page-container">
                 <div className="user-form-container border-gray">
-                    {form}
+                    <div>
+                        {this.props.userErrorMessage ?
+                                <div className="user-form-error">
+                                    {this.props.userErrorMessage}
+                                </div> : ""}
+                        {form}
+                    </div>
                 </div>
             </div>
         )
@@ -22,43 +28,40 @@ class SignIn extends React.Component {
 
         this.state = {
             email: "",
-            password: "",
-            loggedIn: false
+            password: ""
         }
     }
 
     signIn = (e) => {
-
       e.preventDefault();
-      if(this.props.signInCallback(this.state.email, this.state.password)){
-        console.log(this.props);
-        this.setState({loggedIn: true})
-      }
+      this.props.signInCallback(this.state.email, this.state.password)
     }
 
     render() {
-        const emailEmpty = checkNotEmpty.bind(this)("email")
-        const passwordEmpty = checkNotEmpty.bind(this)("password")
+        if (this.props.loggedIn) {
+            return <Redirect to="/" />
+        }
+
         const form = (
             <div>
                 <h2 className="user-form-header">Sign In</h2>
                 <form id="sign-in" className="user-form"
                     onSubmit={this.signIn.bind(this)}>
                     <div className="form-input">
-                        <input className={`form-field ${emailEmpty}`}
+                        <input className="form-field"
                             type="text"
                             name="email"
+                            placeholder="Email"
                             onChange={onFormInputChange.bind(this)}
                             value={this.state.email} />
-                        <label>Email</label>
                     </div>
                     <div className="form-input">
-                        <input className={`form-field ${passwordEmpty}`}
+                        <input className="form-field"
                             type="text"
                             name="password"
+                            placeholder="Password"
                             onChange={onFormInputChange.bind(this)}
                             value={this.state.password} />
-                        <label>Password</label>
                     </div>
                     <Link to="reset-password">
                         <div className="user-form-subtext">
@@ -72,9 +75,7 @@ class SignIn extends React.Component {
                 </form>
             </div>
         );
-        if(this.state.loggedIn){
-          return <Redirect to="/" />
-        }
+
         return <FormPage form={form} />;
     }
 }
@@ -85,41 +86,39 @@ class Register extends React.Component {
 
         this.state = {
             email: "",
-            password: "",
-            signedUp: false // Can add date of birth and other stuff later
+            password: ""
         }
     }
 
     signUp = (e) => {
-      e.preventDefault();
-      if(this.props.signUpCallback(this.state.email, this.state.password)){
-        this.setState({signedUp:true});
-      }
+      e.preventDefault()
+      this.props.signUpCallback(this.state.email, this.state.password)
     }
 
     render() {
-        const emailEmpty = checkNotEmpty.bind(this)("email")
-        const passwordEmpty = checkNotEmpty.bind(this)("password")
+        if (this.props.loggedIn) {
+            return <Redirect to="/" />
+        }
 
         const form = (
             <div>
                 <h2 className="user-form-header">Register</h2>
                 <form id="register" className="user-form" onSubmit={this.signUp.bind(this)}>
                     <div className="form-input">
-                        <input className={`form-field ${emailEmpty}`}
+                        <input className="form-field"
                             type="text"
                             name="email"
+                            placeholder="Email"
                             onChange={onFormInputChange.bind(this)}
                             value={this.state.email} />
-                        <label>Email</label>
                     </div>
                     <div className="form-input">
-                        <input className={`form-field ${passwordEmpty}`}
+                        <input className="form-field"
                             type="text"
                             name="password"
+                            placeholder="Password"
                             onChange={onFormInputChange.bind(this)}
                             value={this.state.password} />
-                        <label>Password</label>
                     </div>
                     <input type="submit"
                         className="form-submit button-border-g"
@@ -144,11 +143,6 @@ function onFormInputChange(event) {
     this.setState({
         [name]: value
     })
-}
-
-// To make the form labels work
-function checkNotEmpty(name) {
-    return this.state[name].length === 0 ? "" : "not-empty"
 }
 
 export {

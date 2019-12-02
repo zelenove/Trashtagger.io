@@ -10,45 +10,74 @@ import { SignIn, Register } from './components/FormPage';
 import CreateRequest from "./components/CreateRequest";
 import Cleanups from "./components/Cleanups";
 import Profile from "./components/Profile";
+import axios from "axios";
+
+// Configure axios
+import "./config/axios";
 
 class App extends React.Component{
-  constructor(){
+  constructor() {
     super();
-    this.state={
+    this.state = {
       userName: "Guest",
       userIsLoggedIn: false,
-      credentials: [["user", "user" ], ["admin", "admin"]]
+      userErrorMessage: ""
     }
   }
 
-  userLogIn(email, password){
-    for(let i = 0; i < this.state.credentials.length; i++){
-      if(this.state.credentials[i][0] === email && this.state.credentials[i][1] === password){
-        this.setState({userIsLoggedIn: true, userName: email});
-        return true;
+  userLogIn(email, password) {
+    axios.post("/users/login", {
+      email: email,
+      password: password
+    })
+    .then((user) => {
+      // Successfully logged in
+      this.setState({
+        userIsLoggedIn: true,
+        userName: user.email
+      })
+    })
+    .catch((error) => {
+      // Server errors
+      if (error.status === 500) {
+        // Not sure what to do for now
       }
-    }
-    console.log(email, password);
-  }
-
-  userSignUp(email, password){
-    let allowSignUp = true;
-    for(let i = 0; i < this.state.credentials.length; i++){
-      if (this.state.credentials[i][0] === email){
-        allowSignUp = false;
-        return false;
+      else {
+        // Log in errors, could display an alert for them
+        this.setState({
+          userErrorMessage: error.message
+        })
       }
-    }
-    if(allowSignUp){
-      let newStateArray = this.state.credentials
-      newStateArray.push([email, password])
-      this.setState({credentials: newStateArray})
-      console.log(this.state.credentials);
-      return true;
-    }
+    })
   }
 
-  render(){
+  userSignUp(email, password) {
+    axios.post("/users/register", {
+      email: email,
+      password: password
+    })
+    .then((user) => {
+      // Successfully logged in
+      this.setState({
+        userIsLoggedIn: true,
+        userName: user.email
+      })
+    })
+    .catch((error) => {
+      // Server errors
+      if (error.status === 500) {
+        // Not sure what to do for now
+      }
+      else {
+        // Log in errors, could display an alert for them
+        this.setState({
+          userErrorMessage: error.message
+        })
+      }
+    })
+  }
+
+  render() {
     return (
       <div className="App">
           <Router>
@@ -57,8 +86,12 @@ class App extends React.Component{
               <div className = "page-container">
                 <Route exact path = "/" component = {Home} />
                 <Route exact path = "/trash-map" component = {TrashMapPage} />
-                <Route exact path = "/register" render = {(props) => <Register signUpCallback={this.userSignUp.bind(this)} />} />
-                <Route exact path = "/sign-in" render = {(props) => <SignIn signInCallback={this.userLogIn.bind(this)} />} />
+                <Route exact path = "/register" render = {(props) => <Register signUpCallback={this.userSignUp.bind(this)}
+                                                                        errorMessage={this.state.userErrorMessage}
+                                                                        loggedIn={this.state.userIsLoggedIn} />} />
+                <Route exact path = "/sign-in" render = {(props) => <SignIn signInCallback={this.userLogIn.bind(this)}
+                                                                        errorMessage={this.state.userErrorMessage}
+                                                                        loggedIn={this.state.userIsLoggedIn} />} />
                 <Route exact path = "/create-request" component = {CreateRequest} />
                 <Route exact path = "/cleanups" component = {Cleanups} />
                 <Route exact path = "/profile" render = {(props) => <Profile userName={this.state.userName} />} />
