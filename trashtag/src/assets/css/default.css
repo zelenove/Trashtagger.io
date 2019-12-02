@@ -220,7 +220,9 @@ header {
           color: inherit; }
         header nav ul li a:hover {
           color: #00BFFF; }
-
+.header-text{
+  color: black;
+}
 .transparent {
   background-color: transparent; }
 
@@ -342,6 +344,7 @@ button {
   font-size: 3.5rem; }
 
 .hero-button {
+
   width: 200px;
   margin-right: 10px;
   margin-bottom: 1em; }
@@ -363,6 +366,26 @@ button {
 #home-hero-img {
   position: absolute;
   top: 0; }
+
+
+.menu-item {
+    padding: 0 40px;
+    margin: 5px 10px;
+    user-select: none;
+    cursor: pointer;
+    border: none;
+}
+.menu-item-wrapper.active {
+  border: 1px blue solid;
+}
+.menu-item.active {
+  border: 1px green solid;
+}
+
+.scroll-menu-arrow {
+  padding: 20px;
+  cursor: pointer;
+}
 
 .body-block {
   width: 70%;

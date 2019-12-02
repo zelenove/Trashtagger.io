@@ -80,8 +80,8 @@ class NavItems extends React.Component {
 class Header extends React.Component {
   render() {
     return (
-      <header className={this.props.location.pathname === "/" ? "transparent" : null}>
-        <Logo />
+      <header className="header-text">
+        <Logo/>
         <NavItems userIsLoggedIn={this.props.userIsLoggedIn}
                   userName={this.props.userName}
                   />
