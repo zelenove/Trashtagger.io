@@ -11,9 +11,9 @@ class Profile extends React.Component {
         // Static title and about for now, all user related data would be
         // pulled from the database
         const title = "Avid trashtagger and environmental activist"
-        const description = "I wish to start a movement of global \
-            environmental concern. Picking up trash and publicizing it is my \
-            way of showing that every single person can make a difference."
+        const description = "I wish to start a movement of global "
+            + "environmental concern. Picking up trash and publicizing it is my "
+            + "way of showing that every single person can make a difference."
 
         const pics = [["Woodbine Beach", tt1]]
 

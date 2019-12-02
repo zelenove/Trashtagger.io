@@ -1,8 +1,5 @@
-const axios = require("axios")
+import axios from "axios"
 
-// Use the user credentials and proxy to the server
-axios.defaults.proxy = {
-    host: "http://localhost",
-    port: "3001"
-}
+// The server address
+axios.defaults.baseURL = "http://localhost:3001"
 axios.defaults.withCredentials = true

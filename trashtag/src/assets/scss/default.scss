@@ -269,9 +269,10 @@ button {
 }
 
 .user-form-error {
-  width: 500px;
+  width: 100%;
   background-color: $lightRed;
-  color: $red;
+  color: $white;
+  font-size: 1.2em;
   padding: 0.5em 0 0.5em 0;
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
 
 class FormPage extends React.Component {
@@ -10,9 +11,9 @@ class FormPage extends React.Component {
             <div className="form-page-container">
                 <div className="user-form-container border-gray">
                     <div>
-                        {this.props.userErrorMessage ?
+                        {this.props.errorMessage ?
                                 <div className="user-form-error">
-                                    {this.props.userErrorMessage}
+                                    {this.props.errorMessage}
                                 </div> : ""}
                         {form}
                     </div>
@@ -28,14 +29,25 @@ class SignIn extends React.Component {
 
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            userErrorMessage: ""
         }
     }
 
     signIn = (e) => {
-      e.preventDefault();
-      this.props.signInCallback(this.state.email, this.state.password)
-    }
+        e.preventDefault()
+
+        axios.post("/users/login", {
+          email: this.state.email,
+          password: this.state.password
+        })
+        .then((user) => {
+          this.props.loginCallback(user)
+        })
+        .catch((error) => {
+          setErrorMessage.bind(this)(error)
+        })
+      }
 
     render() {
         if (this.props.loggedIn) {
@@ -57,7 +69,7 @@ class SignIn extends React.Component {
                     </div>
                     <div className="form-input">
                         <input className="form-field"
-                            type="text"
+                            type="password"
                             name="password"
                             placeholder="Password"
                             onChange={onFormInputChange.bind(this)}
@@ -76,7 +88,8 @@ class SignIn extends React.Component {
             </div>
         );
 
-        return <FormPage form={form} />;
+        return <FormPage form={form} errorMessage={this.state.userErrorMessage}
+                    {...this.props} />;
     }
 }
 
@@ -86,13 +99,24 @@ class Register extends React.Component {
 
         this.state = {
             email: "",
-            password: ""
+            password: "",
+            userErrorMessage: ""
         }
     }
 
     signUp = (e) => {
       e.preventDefault()
-      this.props.signUpCallback(this.state.email, this.state.password)
+
+      axios.post("/users/register", {
+        email: this.state.email,
+        password: this.state.password
+      })
+      .then((user) => {
+        this.props.loginCallback(user)
+      })
+      .catch((error) => {
+        setErrorMessage.bind(this)(error)
+      })
     }
 
     render() {
@@ -114,7 +138,7 @@ class Register extends React.Component {
                     </div>
                     <div className="form-input">
                         <input className="form-field"
-                            type="text"
+                            type="password"
                             name="password"
                             placeholder="Password"
                             onChange={onFormInputChange.bind(this)}
@@ -127,10 +151,9 @@ class Register extends React.Component {
                 </form>
             </div>
         );
-        if(this.state.signedUp){
-          return <Redirect to="/sign-in" />
-        }
-        return <FormPage form={form} />;
+
+        return <FormPage form={form} errorMessage={this.state.userErrorMessage}
+                    {...this.props} />;
     }
 }
 
@@ -143,6 +166,22 @@ function onFormInputChange(event) {
     this.setState({
         [name]: value
     })
+}
+
+function setErrorMessage(error) {
+    // Server errors
+    if (error.response && (error.response.status === 400
+        || error.response.status === 404 || error.response.status === 401)) {
+        // Log in errors, could display an alert for them
+        this.setState({
+            userErrorMessage: error.response.data
+        })
+    }
+    else {
+        this.setState({
+            userErrorMessage: "There was an error logging in"
+        })
+    }
 }
 
 export {

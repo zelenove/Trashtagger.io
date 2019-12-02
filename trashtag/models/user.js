@@ -57,7 +57,7 @@ class UserClass {
 			.then((user) => {
 				if (!user) {
 					reject({
-						status: 400,
+						status: 404,
 						message: "That email is not registered"
 					})  // a rejected promise
 				}
@@ -86,7 +86,7 @@ class UserClass {
 					}
 					else {
 						reject({
-							status: 400,
+							status: 404,
 							message: "Incorrect password"
 						})
 					}

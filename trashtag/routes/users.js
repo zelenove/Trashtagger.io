@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const validator = require("validator")
+const { User } = require("../models/user")
 
 /*
     Expecting:
@@ -9,17 +10,15 @@ const validator = require("validator")
         password: string
     }
 */
-router.post("users/login", (req, res) => {
-    console.log("HIA")
-    log(email, password);
+router.post("/users/login", (req, res) => {
     const { email, password } = req.body
 
     // Validate the input
     if (typeof email !== "string" || !validator.isEmail(email )) {
-        res.status(401).send("That email is not valid")
+        res.status(400).send("That email is not valid")
     }
     else if (typeof password !== "string" || password.length < 6) {
-        res.status(401).send("Make sure your password is at least 6 characters long")
+        res.status(400).send("Incorrect password")
     }
     else {
         // Use the static method on the User model to find a user
@@ -30,7 +29,9 @@ router.post("users/login", (req, res) => {
                 // We can check later if this exists to ensure we are logged in.
                 req.session.user = user._id;
                 req.session.email = user.email;
-                res.status(200).send({ currentUser: user.email });
+                res.status(200).send({
+                    user: user.email
+                });
             })
             .catch(error => {
                 res.status(error.status).send(error.message)
@@ -46,7 +47,7 @@ router.post("users/login", (req, res) => {
         password: string
     }
 */
-router.post("users/register", (req, res) => {
+router.post("/users/register", (req, res) => {
     const { email, password } = req.body
 
     // Validate the input
@@ -64,7 +65,7 @@ router.post("users/register", (req, res) => {
         })
         .catch((error) => {
             // The user does not exist
-            if (error.status !== 400) {
+            if (error.status !== 404) {
                 res.status(error.status).send(error.message)
             }
             else {
@@ -77,8 +78,9 @@ router.post("users/register", (req, res) => {
                 // Save the user
                 user.save().then(
                     user => {
-                        console.log(user)
-                        res.status(201).send(user);
+                        res.status(201).send({
+                            user: user.email
+                        });
                     },
                     error => {
                         res.status(500).send(error);

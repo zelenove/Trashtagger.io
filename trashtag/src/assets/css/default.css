@@ -395,9 +395,10 @@ button {
   background: #ffffff; }
 
 .user-form-error {
-  width: 500px;
+  width: 100%;
   background-color: #ff6666;
-  color: #ff1755;
+  color: #ffffff;
+  font-size: 1.2em;
   padding: 0.5em 0 0.5em 0; }
 
 .user-form-subtext {
