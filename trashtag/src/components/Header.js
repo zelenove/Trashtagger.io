@@ -79,8 +79,10 @@ class NavItems extends React.Component {
 
 class Header extends React.Component {
   render() {
+    const shouldTransparent = this.props.location.pathname === "/" ? "transparent" : null;
+    const headerClass = "header-text" + " " + shouldTransparent
     return (
-      <header className="header-text">
+      <header className={shouldTransparent}>
         <Logo/>
         <NavItems userIsLoggedIn={this.props.userIsLoggedIn}
                   userName={this.props.userName}

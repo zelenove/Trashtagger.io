@@ -35,39 +35,19 @@ export const Menu = (list, selected) =>
 
 class Home extends React.Component {
   render() {
-    const numPics = 3;
-
-
-    // Would get the numPics most trending pictures here
-    // const pics = [["Woodbine Beach", tt1],
-    //               ["Brent National Park", tt2],
-    //               ["Kensley Lake", tt3]]
-
-    const pics2 = [{name: "Woodbine Beach", img: tt1},
+    const pics = [{name: "Woodbine Beach", img: tt1},
                     {name: "Brent National Park", img: tt2},
                     {name: "Kensley Lake", img: tt3}];
 
     let selected = "Brent National Park";
 
-    const menuItems = Menu(pics2, selected);
-
-    // const picRows = pics.map((picRow) => {
-    //   const name = picRow[0];
-    //   const pic = picRow[1];
-    //   return (
-    //     <div key = {pic} className = "trending-block">
-    //       <h1>{name}</h1>
-    //       <Link to = "/">
-    //         <img className = "trending-img" src = {pic} alt={name}></img>
-    //       </Link>
-    //     </div>);}
-    //   );
+    const menuItems = Menu(pics, selected);
 
     return (
       <div>
+      <img id="home-hero-img" className = "hero-img" src = {homeHero}
+      alt="Community Cleanup"></img>
         <div className = {"page hero full-page"}>
-        <img id="home-hero-img" className = "hero-img" src = {homeHero}
-        alt="Community Cleanup"></img>
           <div id = "home-hero-block" className = "hero-block">
             <h1 className = "hero-text text-white">
               HELP KEEP YOUR<br />COMMUNITY CLEAN.
