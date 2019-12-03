@@ -1,11 +1,12 @@
 const express = require("express")
 const router = express.Router()
+const validator = require("validator")
 
 const { Trashtag } = require('../models/trashtag')
 const { User } = require("../models/user")
 
 router.post("/trashtags/create", checkAuth, (req, res) => {
-    const { location, description } = req.body
+    const { longitude, latitude, location, description } = req.body
 
     // Verify input here
     if (typeof location !== "string") {
@@ -13,6 +14,10 @@ router.post("/trashtags/create", checkAuth, (req, res) => {
     }
     else if (typeof description !== "string" || description.length > 256) {
         res.status(401).send("That description is invalid")
+    }
+    else if (typeof latitude !== "number" || typeof longitude !== "number"
+             || !validator.isLatLong(JSON.stringify(latitude) + "," + JSON.stringify(longitude))) {
+        res.status(401).send("Invalid coordinates")
     }
     else {
         // Get the user to save the new request to
@@ -26,12 +31,31 @@ router.post("/trashtags/create", checkAuth, (req, res) => {
                 request_img: req.body.request_img
             });
 
+
             trashtag.save()
                 .then(result => {
-                    res.send(result);
+                    user.requested_cleanups.push(result._id)
+                    user.save().then((userRes) => {
+                        res.status(201).send({
+                            cleanup_request: result.getData(),
+                            user: userRes.getData()
+                        })
+                    })
+                    .catch((error) => {
+                        // Just retry saving once
+                        user.save().then((userRes) => {
+                            res.status(201).send({
+                                cleanup_request: result.getData(),
+                                user: userRes.getData()
+                            })
+                        })
+                        .catch((error) => {
+                            res.status(500).send("Error saving cleanup request to user")
+                        })
+                    })
                 })
                 .catch(error => {
-                    res.status(400).send(error);
+                    res.status(500).send("Error creating cleanup request");
             });
         })
     }

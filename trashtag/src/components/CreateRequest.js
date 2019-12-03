@@ -149,6 +149,7 @@ class CreateRequest extends React.Component {
                                 type="text"
                                 placeholder="Location"
                                 name="location"
+                                value={this.state.location}
                                 onChange={onFormInputChange.bind(this)} />
                         </div>
                         <div className="form-input">
@@ -160,6 +161,7 @@ class CreateRequest extends React.Component {
                                 placeholder="Description (Max 256 Characters)"
                                 maxLength="256"
                                 rows="5"
+                                value={this.state.description}
                                 required />
                         </div>
 
