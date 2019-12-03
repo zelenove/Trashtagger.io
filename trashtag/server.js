@@ -38,17 +38,21 @@ app.use(
 
 // The routes
 const userRoute = require("./routes/users");
+const trashtagRoute = require("./routes/trashtag");
 
 app.use("/", userRoute);
+app.use("/", trashtagRoute);
 
 // Check if a session is authenticated
 app.use("/auth", (req, res) => {
     if (req.session.user) {
         res.status(200).send({
-			username: req.session.user.username,
-			email: req.session.user.email,
-			numRequested: req.session.user.numRequested,
-			numCleaned: req.session.user.numCleaned
+            user: {
+                username: req.session.user.username,
+                email: req.session.user.email,
+                requested_cleanups: req.session.user.requested_cleanups,
+                completed_cleanups: req.session.user.completed_cleanups
+            }
 		})
     }
     else {

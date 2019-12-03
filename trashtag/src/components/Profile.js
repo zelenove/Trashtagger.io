@@ -32,7 +32,7 @@ class Profile extends React.Component {
 
         // Showcasing with the 2 users
         const profilePic = this.props.user.username === "user" ? user : admin
-
+        console.log(this.props)
         return (
             <div className="trashmap-page-container">
                 <div className="profile-info-pane">
@@ -48,9 +48,9 @@ class Profile extends React.Component {
                                 {title}
                             </div>
                             <div className="profile-info-block">
-                                Cleanups Requested: {this.props.user.numRequested}
+                                Cleanups Requested: {this.props.user.requestedCleanups.length}
                                 <br />
-                                Cleanups Completed: {this.props.user.numCleaned}
+                                Cleanups Completed: {this.props.user.completedCleanups.length}
                             </div>
                         </div>
                         <div className="profile-description">

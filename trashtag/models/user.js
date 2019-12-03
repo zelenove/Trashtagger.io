@@ -37,28 +37,30 @@ const UserSchema = new mongoose.Schema({
 		trim: true,
 		minlength: 6
 	},
-	numRequested: {
-		type: Number,
-		default: 0
-	},
-	numCleaned: {
-		type: Number,
-		default: 0
-	}
+	requested_cleanups: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Trashtag'
+		}
+	],
+	completed_cleanups: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Trashtag'
+		}
+	],
 })
 
 // An example of Mongoose middleware.
 // This function will run immediately prior to saving the document
 // in the database.
 UserSchema.pre('save', function(next) {
-	const user = this; // binds this to User document instance
-
 	// checks to ensure we don't hash password more than once
-	if (user.isModified('password')) {
+	if (this.isModified('password')) {
 		// generate salt and hash the password
 		bcrypt.genSalt(10, (err, salt) => {
 			bcrypt.hash(user.password, salt, (err, hash) => {
-				user.password = hash
+				this.password = hash
 				next()
 			})
 		})
@@ -66,6 +68,19 @@ UserSchema.pre('save', function(next) {
 		next()
 	}
 })
+
+// Populate the trashtags after finding a user
+UserSchema.post("find", populateTrashtags)
+UserSchema.post("save", populateTrashtags)
+
+function populateTrashtags(doc, next) {
+	doc.populated("requested_cleanups")
+	   .populate("completed_cleanups")
+	   .execPopulate()
+	   .then(() => {
+		   next()
+	   })
+}
 
 // A class of functions for the user schema
 class UserClass {
@@ -147,11 +162,12 @@ class UserClass {
 
 	// Extract information to send to the client
 	getData() {
+		//console.log(this.populate)
 		return {
 			username: this.username,
 			email: this.email,
-			numRequested: this.numRequested,
-			numCleaned: this.numCleaned
+			requested_cleanups: this.requested_cleanups,
+			completed_cleanups: this.completed_cleanups
 		}
 	}
 }

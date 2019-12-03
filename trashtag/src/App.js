@@ -10,6 +10,7 @@ import { SignIn, Register } from './components/FormPage';
 import CreateRequest from "./components/CreateRequest";
 import Cleanups from "./components/Cleanups";
 import Profile from "./components/Profile";
+import ProfilePage from "./components/ProfilePage";
 
 // Configure axios
 import "./config/axios";
@@ -19,7 +20,9 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      user: "Guest",
+      user: {
+        username: "Guest"
+      },
       userIsLoggedIn: false,
       userErrorMessage: ""
     }
@@ -29,7 +32,7 @@ class App extends React.Component {
     // Successfully logged in
     this.setState({
       userIsLoggedIn: true,
-      user: response.data
+      user: response.data.user
     })
   }
 
@@ -59,6 +62,7 @@ class App extends React.Component {
                   <Route exact path = "/create-request" component = {CreateRequest} />
                   <Route exact path = "/cleanups" component = {Cleanups} />
                   <Route exact path = "/profile" render = {(props) => <Profile user={this.state.user} />} />
+                  <Route path = "/user/:username" component = {ProfilePage} />
                   <Route path="*" render = {(props) => <Redirect to="/" />} />
                 </Switch>
               </div>

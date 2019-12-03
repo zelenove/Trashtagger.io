@@ -9,7 +9,7 @@ class CreateRequest extends React.Component {
         super()
 
         this.state = {
-            title: "",
+            location: "",
             description: "",
             markerPosition: null,
             img_url: ""
@@ -31,21 +31,21 @@ class CreateRequest extends React.Component {
     createCleanupRequest = (e) => {
         e.preventDefault()
         
-        console.log(this.state.title, this.state.description, this.state.img_url)
+        console.log(this.state.location, this.state.description, this.state.img_url)
 
         axios.post("trashtags/create", {
             //requested_by: 
-            title: this.state.title,
+            location: this.state.location,
             description: this.state.description,
             //longitude: Decimal128
             //latitude: Decimal128
             request_img: this.state.img_url
         })
-
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.title !== this.state.title
+        return true
+        if (nextState.location !== this.state.location
             || nextState.description !== this.state.description) {
             return false
         }
@@ -85,7 +85,7 @@ class CreateRequest extends React.Component {
             !this.state.markerPosition ? [] :
                 [
                     {
-                        name: this.state.title,
+                        name: this.state.location,
                         position: this.state.markerPosition
                     }
                 ]
@@ -101,8 +101,8 @@ class CreateRequest extends React.Component {
                         <div className="form-input">
                             <input className="form-field"
                                 type="text"
-                                placeholder="Title"
-                                name="title"
+                                placeholder="Location"
+                                name="location"
                                 onChange={onFormInputChange.bind(this)} />
                         </div>
                         <div className="form-input">
