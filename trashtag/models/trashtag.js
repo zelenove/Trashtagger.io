@@ -1,53 +1,63 @@
-/* Trashtag mongoose model */
-const { mongoose } = require('../db/mongoose');
+/* Student mongoose model */
+const mongoose = require('mongoose');
+const User = require('./user');
 
-const TrashtagSchema = new mongoose.Schema({
-	  requested_by: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',
-		    required: true,
-    },
+const TrashtagSchema = mongoose.Schema({
+	// requested_by: {
+  //   type: mongoose.Schema.Types.ObjectId, 
+  //   ref: 'User',
+	// 	required: true,
+  // },
     
-    requested_date: {
-        type: Date,
-        required: true,
-    },
+  requested_date: {
+	  type: Date,
+		default: Date.now,
+  },
 
-	  longitude: {
-        type: mongoose.Decimal128,
-        required: true,
-    },
+  title: {
+    type: String,
+    required: true
+  },
 
-    latitude: {
-        type: mongoose.Decimal128,
-        required: true,
-    },
+  description: {
+    type: String,
+    required: true
+  },
 
-    request_img: {
-        type: String,
-        required: true
-    },
+	// longitude: {
+	// 	type: mongoose.Decimal128,
+	// 	required: true,
+  // },
 
-    cleaned: {
-        type: Boolean,
-        required: true
-    },
+  // latitude: {
+	// 	type: mongoose.Decimal128,
+	// 	required: true,
+  // },
 
-    cleaned_by: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User'
-    },
+  request_img: {
+    type: String,
+    required: true
+  },
 
-    cleaned_date: {
-		    type: Date,
-    },
+  cleaned: {
+    type: Boolean,
+    default: false
+  },
 
-    cleaned_img: {
-        type: String,
-    }
+  // cleaned_by: {
+  //   type: mongoose.Schema.Types.ObjectId, 
+  //   ref: 'User'
+  // },
+
+  cleaned_date: {
+		type: Date,
+  },
+
+  cleaned_img: {
+    type: String,
+  }
 
 });
 
-// make a model using the User schema
 const Trashtag = mongoose.model('Trashtag', TrashtagSchema)
 module.exports = { Trashtag }

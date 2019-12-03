@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 import TrashMap from "./TrashMap";
 
@@ -10,7 +11,8 @@ class CreateRequest extends React.Component {
         this.state = {
             title: "",
             description: "",
-            markerPosition: null
+            markerPosition: null,
+            img_url: ""
         }
     }
 
@@ -25,9 +27,21 @@ class CreateRequest extends React.Component {
         })
     }
   
-    createCleanupRequest = (event) => {
-        event.preventDefault();
-        // To be used only if a user is logged in
+    // To be used only if a user is logged in
+    createCleanupRequest = (e) => {
+        e.preventDefault()
+        
+        console.log(this.state.title, this.state.description, this.state.img_url)
+
+        axios.post("trashtags/create", {
+            //requested_by: 
+            title: this.state.title,
+            description: this.state.description,
+            //longitude: Decimal128
+            //latitude: Decimal128
+            request_img: this.state.img_url
+        })
+
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -39,18 +53,28 @@ class CreateRequest extends React.Component {
         return true
     }
 
+    // Create the image upload widget and require square cropping
+    // Callback stores returned img url in state
     showWidget = () => {
         window.cloudinary.openUploadWidget({
             cloudName: "trashcloud",
             uploadPreset: "trashtag_crop",
             sources: ["local"],
-            cropping: true,
+            cropping: 'server',
             multiple: false,
+            resourceType: 'image',
             singleUploadAutoClose: false,
             showSkipCropButton: false,
             croppingAspectRatio: 1,
-            croppingCoordinatesMode: "custom"
-        })
+            croppingCoordinatesMode: 'custom',
+        }, (error, result) => {
+            if (result && result.event === "success"){
+                console.log(result.info.url);
+                this.setState({
+                    img_url: result.info.url
+                })
+            }
+        });
     }
 
     render() {
@@ -71,7 +95,7 @@ class CreateRequest extends React.Component {
             <div className="trash-page-container trashmap-container-full">
                 <form id="create-request trashmap"
                     className="trashmap-container-full"
-                    onSubmit={this.createCleanupRequest}>
+                    onSubmit={this.createCleanupRequest.bind(this)}>
                     <div className="user-form-section">
                         <h2 className="user-form-header">Create Request</h2>
                         <div className="form-input">
@@ -105,6 +129,7 @@ class CreateRequest extends React.Component {
                         <input type="submit"
                             className="form-submit button-border-g"
                             value="Submit Request" />
+                            <img src={this.state.img_url} />
                     </div>
                 </form>
             </div>
