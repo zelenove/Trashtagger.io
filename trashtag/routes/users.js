@@ -152,8 +152,20 @@ router.post("/users/register", (req, res) => {
     }
 });
 
-router.post("/users/logout", (req, res) => {
 
+router.post("/users/logout", checkAuth, (req, res) => {
+    req.logout()
+    res.sendStatus(200)
 })
+
+// To check a user logged in for protected routes
+function checkAuth(req, res, next) {
+    if (!req.session.user) {
+        res.sendStatus(401)
+    }
+    else {
+        next()
+    }
+}
 
 module.exports = router;
