@@ -216,7 +216,7 @@ class TrashMap extends React.Component {
           <h3>Requested Date:</h3>
           <p>{this.selectedMarker.requested_date}</p>
           <h3>Requested Image</h3>
-          <img src={this.selectedMarker.request_img}></img>
+          <img src={this.selectedMarker.request_img }></img>
 
 
       </div>

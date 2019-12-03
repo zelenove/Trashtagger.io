@@ -26,15 +26,15 @@ class CreateRequest extends React.Component {
             }
         })
     }
-  
+
     // To be used only if a user is logged in
     createCleanupRequest = (e) => {
         e.preventDefault()
-        
+
         console.log(this.state.location, this.state.description, this.state.img_url)
 
         axios.post("/trashtags/create", {
-            //requested_by: 
+            //requested_by:
             location: this.state.location,
             description: this.state.description,
             longitude: this.state.markerPosition.lng,
@@ -48,16 +48,6 @@ class CreateRequest extends React.Component {
             console.log('ERERRE')
           })
 
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return true
-        if (nextState.location !== this.state.location
-            || nextState.description !== this.state.description) {
-            return false
-        }
-
-        return true
     }
 
     // Create the image upload widget and require square cropping
@@ -111,7 +101,7 @@ class CreateRequest extends React.Component {
     //         const message = document.querySelector('#message')
     //         if (res.status === 200) {
     //             console.log('Added request')
-                
+
     //         }
     //         else {
     //             console.log('erer')
@@ -146,7 +136,7 @@ class CreateRequest extends React.Component {
                         <h2 className="user-form-header">Create Request</h2>
                         <div className= "message"></div>
                         <div className="form-input">
-                            <input className="form-field" 
+                            <input className="form-field"
                                 type="text"
                                 placeholder="Location"
                                 name="location"
@@ -178,9 +168,9 @@ class CreateRequest extends React.Component {
                         <input type="submit"
                             className="form-submit button-border-g"
                             value="Submit Request" />
-                            
+
                             <img src={this.state.img_url} />
-                            
+
                     </div>
                 </form>
             </div>

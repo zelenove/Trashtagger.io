@@ -16,7 +16,7 @@ const TrashtagSchema = mongoose.Schema({
 	  type: Date,
 	  default: Date.now
   },
- 
+
   location: {
     type: String,
     required: true
@@ -27,8 +27,8 @@ const TrashtagSchema = mongoose.Schema({
     required: true
   },
 
-  
-    
+
+
   longitude: {
 		  type: Number,
 		  required: true,
