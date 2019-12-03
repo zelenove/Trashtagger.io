@@ -13,7 +13,7 @@ const TrashtagSchema = mongoose.Schema({
 	  type: Date,
 		default: Date.now,
   },
-
+ 
   title: {
     type: String,
     required: true
@@ -24,15 +24,15 @@ const TrashtagSchema = mongoose.Schema({
     required: true
   },
 
-	// longitude: {
-	// 	type: mongoose.Decimal128,
-	// 	required: true,
-  // },
+	longitude: {
+		type: mongoose.Decimal128,
+		required: true,
+  },
 
-  // latitude: {
-	// 	type: mongoose.Decimal128,
-	// 	required: true,
-  // },
+  latitude: {
+		type: mongoose.Decimal128,
+		required: true,
+  },
 
   request_img: {
     type: String,

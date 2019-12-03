@@ -33,14 +33,19 @@ class CreateRequest extends React.Component {
         
         console.log(this.state.title, this.state.description, this.state.img_url)
 
-        axios.post("trashtags/create", {
+        axios.post("/create-request/submit", {
             //requested_by: 
             title: this.state.title,
             description: this.state.description,
-            //longitude: Decimal128
-            //latitude: Decimal128
+            longitude: this.state.markerPosition.lng,
+            latitude: this.state.markerPosition.lat,
             request_img: this.state.img_url
-        })
+        }).then(function(res) {
+            console.log('added')
+          })
+          .catch((error) => {
+            console.log('ERERRE')
+          })
 
     }
 
@@ -77,6 +82,45 @@ class CreateRequest extends React.Component {
         });
     }
 
+    // clientSide = () => {
+
+
+    //     const url = '/create-request';
+
+    //     let data = {
+    //         title: this.state.title,
+    //         description: this.state.description,
+    //         request_img: this.state.img_url
+    //     }
+
+    //     const request = new Request(url, {
+    //         method: 'post',
+    //         body: JSON.stringify(data),
+    //         headers: {
+    //             'Accept': 'application/json, text/plain, */*',
+    //             'Content-Type': 'application/json'
+    //         },
+    //     });
+
+    //     //send request with fetch()
+
+    //     fetch(request)
+    //     .then(function(res) {
+    //         const message = document.querySelector('#message')
+    //         if (res.status === 200) {
+    //             console.log('Added request')
+                
+    //         }
+    //         else {
+    //             console.log('erer')
+    //         }
+    //         console.log(res)
+
+    //     }).catch((error) => {
+    //         console.log(error)
+    //     })
+    // }
+
     render() {
 
         // Likely a good idea to customize rendering to not reload the map
@@ -98,8 +142,9 @@ class CreateRequest extends React.Component {
                     onSubmit={this.createCleanupRequest.bind(this)}>
                     <div className="user-form-section">
                         <h2 className="user-form-header">Create Request</h2>
+                        <div className= "message"></div>
                         <div className="form-input">
-                            <input className="form-field"
+                            <input className="form-field" 
                                 type="text"
                                 placeholder="Title"
                                 name="title"
@@ -129,7 +174,9 @@ class CreateRequest extends React.Component {
                         <input type="submit"
                             className="form-submit button-border-g"
                             value="Submit Request" />
+                            
                             <img src={this.state.img_url} />
+                            
                     </div>
                 </form>
             </div>

@@ -5,9 +5,13 @@ const express = require("express");
 // starting the express server
 const app = express();
 
+const { mongoose } = require('./db/mongoose')
+
 // Helmet for security
 const helmet = require("helmet");
 app.use(helmet());
+
+const {Trashtag} = require ('./models/trashtag')
 
 // CORS for cross-origin requests
 const cors = require("cors")
@@ -58,13 +62,34 @@ app.use("/auth", (req, res) => {
 
 /*** Webpage routes below **********************************/
 // Serve the build
-app.use(express.static(__dirname + "/client/build"));
+app.use(express.static(__dirname + "/build"));
 
 
 
 // All routes other than above will go to index.html
 app.get("*", (req, res) => {
-    res.sendFile(__dirname + "/client/build/index.html");
+    res.sendFile(__dirname + "/build/index.html");
+});
+
+app.post("/create-request/submit", (req, res) => {
+
+    const trashtag = new Trashtag({
+        //requested_by: req.body.requested_by,
+        title: req.body.title,
+        description: req.body.description,
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
+        request_img: req.body.request_img
+    });
+    console.log('HERE')
+    trashtag.save()
+		.then(result => {
+			res.send(result);
+		})
+		.catch(error => {
+			res.status(400).send(error);
+	});
+    
 });
 
 /*************************************************/
