@@ -40,7 +40,6 @@ class CreateRequest extends React.Component {
             longitude: this.state.markerPosition.lng,
             latitude: this.state.markerPosition.lat,
             request_img: this.state.img_url
-<<<<<<< HEAD
         }).then(function(res) {
             console.log('added')
           })
@@ -48,9 +47,6 @@ class CreateRequest extends React.Component {
             console.log('ERERRE')
           })
 
-=======
-        })
->>>>>>> 46277bb1a8834c382d4815e1efbbe2017c0603de
     }
 
     shouldComponentUpdate(nextProps, nextState) {

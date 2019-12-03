@@ -79,7 +79,7 @@ app.post("/create-request/submit", (req, res) => {
 
     const trashtag = new Trashtag({
         //requested_by: req.body.requested_by,
-        title: req.body.title,
+        location: req.body.location,
         description: req.body.description,
         longitude: req.body.longitude,
         latitude: req.body.latitude,

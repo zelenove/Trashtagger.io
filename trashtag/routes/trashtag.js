@@ -4,21 +4,19 @@ const router = express.Router()
 const { Trashtag } = require('../models/trashtag')
 const { User } = require("../models/user")
 
-router.post("/trashtags/create", checkAuth, (req, res) => {
-    const { location, description } = req.body
 
-<<<<<<< HEAD
+
 router.post("/create-request/submit", (req, res) => {
 
     const trashtag = new Trashtag({
         //requested_by: req.body.requested_by,
-        title: req.body.title,
-        description: req.body.location,
-        //longitude: req.body.longitude,
-        //latitude: req.body.latitude,
-       // request_img: req.body.request_img
+        location: req.body.location,
+        description: req.body.description,
+        longitude: req.body.longitude,
+        latitude: req.body.latitude,
+       request_img: req.body.request_img
     });
-    console.log('erere')
+    //console.log('erere')
     trashtag.save()
 		.then(result => {
 			res.send(result);
@@ -27,37 +25,15 @@ router.post("/create-request/submit", (req, res) => {
 			res.status(400).send(error);
 	});
     
-=======
-    // Verify input here
-    if (typeof location !== "string") {
-        res.status(401).send("That location name is invalid")
-    }
-    else if (typeof description !== "string" || description.length > 256) {
-        res.status(401).send("That description is invalid")
-    }
-    else {
-        // Get the user to save the new request to
-        User.findById(req.session.user._id).then((user) => {
-            const trashtag = new Trashtag({
-                requested_by: req.session.user._id,
-                title: req.body.title,
-                description: req.body.location,
-                //longitude: req.body.longitude,
-                //latitude: req.body.latitude,
-                request_img: req.body.request_img
-            });
-        
-            trashtag.save()
-                .then(result => {
-                    res.send(result);
-                })
-                .catch(error => {
-                    res.status(400).send(error);
-            });           
-        })
-    }
->>>>>>> 46277bb1a8834c382d4815e1efbbe2017c0603de
 });
+
+router.get('/all-trashtags', (req,res) => {
+    Trashtag.find().then((trashtags) => {
+        res.send({trashtags})
+    }, (error) => {
+        res.status(500).send(error)
+    })
+})
 
 // To check a user logged in for protected routes
 function checkAuth(req, res, next) {

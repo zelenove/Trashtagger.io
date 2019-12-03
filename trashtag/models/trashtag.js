@@ -3,28 +3,23 @@ const { mongoose } = require('../db/mongoose');
 const AutoIncrement = require("mongoose-sequence")(mongoose)
 
 const TrashtagSchema = mongoose.Schema({
-  rID: {
-    type: Number,
-    required: true
-  }, // Auto incremented number of requests
+  // rID: {
+  //   type: Number,
+  //   required: true
+  // }, // Auto incremented number of requests
 
-	requested_by: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User',
-    required: true,
-  },
+	// requested_by: {
+  //   type: mongoose.Schema.Types.ObjectId, 
+  //   ref: 'User',
+  //   required: true,
+  // },
 
   requested_date: {
 	  type: Date,
 		default: Date.now,
   },
-<<<<<<< HEAD
  
-  title: {
-=======
-
   location: {
->>>>>>> 46277bb1a8834c382d4815e1efbbe2017c0603de
     type: String,
     required: true
   },
@@ -34,15 +29,17 @@ const TrashtagSchema = mongoose.Schema({
     required: true
   },
 
-	longitude: {
-		type: mongoose.Decimal128,
-		required: true,
-  },
+  
+    
+  longitude: {
+		  type: Number,
+		  required: true,
+    },
 
-  latitude: {
-		type: mongoose.Decimal128,
-		required: true,
-  },
+    latitude: {
+		  type: Number,
+		  required: true,
+    },
 
   request_img: {
     type: String,
