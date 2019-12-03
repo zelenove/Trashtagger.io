@@ -26,8 +26,8 @@ router.post("/trashtags/create", checkAuth, (req, res) => {
                 requested_by: req.session.user._id,
                 title: req.body.title,
                 description: req.body.location,
-                //longitude: req.body.longitude,
-                //latitude: req.body.latitude,
+                longitude: req.body.longitude,
+                latitude: req.body.latitude,
                 request_img: req.body.request_img
             });
 
