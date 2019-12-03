@@ -5,20 +5,11 @@ const express = require("express");
 // starting the express server
 const app = express();
 
-const { mongoose } = require('./db/mongoose')
-
 // Helmet for security
 const helmet = require("helmet");
 app.use(helmet());
 
-const {Trashtag} = require ('./models/trashtag')
-
-// CORS for cross-origin requests
-const cors = require("cors")
-app.use(cors({
-    origin: "http://localhost:3000",
-    credentials: true
-}))
+const { Trashtag } = require ('./models/trashtag')
 
 // body-parser: middleware for parsing HTTP JSON body into a usable object
 const bodyParser = require("body-parser");
@@ -93,7 +84,7 @@ app.post("/create-request/submit", (req, res) => {
 		.catch(error => {
 			res.status(400).send(error);
 	});
-    
+
 });
 
 /*************************************************/

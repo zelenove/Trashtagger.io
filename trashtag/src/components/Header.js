@@ -39,6 +39,9 @@ class NavItems extends React.Component {
           <li>
             <Link to="/profile">Profile</Link>
           </li>
+          <li>
+            <Link to="/logout">Logout</Link>
+          </li>
         </React.Fragment>
       )
     } else {
@@ -54,11 +57,10 @@ class NavItems extends React.Component {
             <Link to="/trash-map">Trash Map</Link>
           </li>
           <li>
-            <Link to={{pathname:"/sign-in"}}>Sign In</Link>
-
+            <Link to="/sign-in">Sign In</Link>
           </li>
           <li className="last">
-            <Link to={{pathname:"/register"}}>Register</Link>
+            <Link to="/register">Register</Link>
           </li>
         </React.Fragment>
       );
