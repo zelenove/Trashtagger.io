@@ -372,3 +372,15 @@ button {
 .user-form-section {
   display: inline;
 }
+
+.square {
+  max-height: 50%;
+  max-width: 50%;
+}
+
+.combiner {
+  position: relative;
+  width: 25%vh;
+  max-width: 600px;
+  padding: 20px;
+}
