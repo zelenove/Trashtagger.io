@@ -37,39 +37,14 @@ class TrashMap extends React.Component {
 
     this.state = {
       // Just some static data for now, would be pulled from DB
-      markers: []
-        // {
-        //   id: 0,
-        //   name: "Bolton's Ranch",
-        //   position: {
-        //     lat: 41.89812,
-        //     lng: -77.9129
-        //   }
-        // },
-        // {
-        //   id: 1,
-        //   name: "Niagara Falls",
-        //   position: {
-        //     lat: 43,
-        //     lng: -79
-        //   }
-        // },
-        // {
-        //   id: 2,
-        //   name: "Queen's Park",
-        //   position: {
-        //     lat: 43.6532,
-        //     lng: -79.3832
-        //   }
-        // }
-      ,
+      markers: [],
       searchResults: [],
       pagination: null,
-      counter: 2,
-      text: ' ',
+       
       
       
     }
+
 
     this.map = React.createRef()
     this.selectedMarker = React.createRef()
@@ -111,9 +86,17 @@ class TrashMap extends React.Component {
     //     console.log(error)
     //   })
 
+    const map_filter_1 = this.state.markers.filter((element) => element.latitude === lat())
+    const map_filter_2 = map_filter_1.find((element) => element.longitude === lng())
+    console.log(map_filter_2)
 
+    this.selectedMarker = map_filter_2
 
+    console.log(this.selectedMarker)
+    
       this.openModal()
+
+
   }
 
   getTrash = () => {
@@ -212,33 +195,7 @@ class TrashMap extends React.Component {
     const mapElement = <div className="trashmap-map-element" />
     const loadingElement = <div className="trashmap-loading-element" />
 
-    // This info would be pulled from the database, static for now
-    const trashInfo = [
-      (
-        <div className="trashmap-info-block">
-          <div className="trashmap-info-text">
-            <h3>Queen's Park</h3>
-            Severity: High
-          </div>
-        </div>
-      ),
-      (
-        <div className="trashmap-info-block">
-          <div className="trashmap-info-text">
-            <h3>Bolton's Ranch</h3>
-            Severity: Medium
-          </div>
-        </div>
-      ),
-      (
-        <div className="trashmap-info-block">
-          <div className="trashmap-info-text">
-            <h3>Niagara Falls</h3>
-            Severity: Low
-          </div>
-        </div>
-      ),
-    ]
+    
     const trash_Info = trash_locations.map((location) => (
       <div className="trashmap-info-block">
         <div className="trashmap-info-text">
@@ -247,6 +204,25 @@ class TrashMap extends React.Component {
         </div>
       </div>
     ) )
+
+    const popup_text = (
+      <div className="PopupText">
+        <h3>Location:</h3>
+          <p>{this.selectedMarker.location}</p>
+          <h3>Description:</h3>
+          <p>{this.selectedMarker.description}</p>
+          <h3>Requested by:</h3>
+          <p>{this.selectedMarker.requested_by}</p>
+          <h3>Requested Date:</h3>
+          <p>{this.selectedMarker.requested_date}</p>
+          <h3>Requested Image</h3>
+          <img src={this.selectedMarker.request_img}></img>
+
+
+      </div>
+    )
+
+    
     return (
       <div className="trashmap-all-container">
         <div className="trashmap-sidepane">
@@ -278,9 +254,11 @@ class TrashMap extends React.Component {
              <a className="close" onClick={this.closeModal}>
               &times;
                 </a>
-                {this.state.text}
+                {popup_text}
                    <br></br>
                  <button>Complete Request</button>
+                 <button>Submit Finished Picture</button>
+
              </div>
             </Popup>
          </div>
