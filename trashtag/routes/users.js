@@ -5,6 +5,32 @@ const { User } = require("../models/user")
 
 /*
     Expecting:
+    No Body
+*/
+router.get("/users/:username", (req, res) => {
+    const { username } = req.params
+    if (typeof username !== "string" || username.length < 4
+        || !username.length > 32) {
+        res.status(404).send("That user does not exist")
+    }
+    else {
+        User.findByUsername(username).then((user) => {
+            res.status(200).send({
+                user: {
+                    username: user.username,
+                    requested_cleanups: user.requested_cleanups,
+                    completed_cleanups: user.completed_cleanups
+                }
+            })
+        })
+        .catch((error) => {
+            res.status(error.status).send(error.message)
+        })
+    }
+})
+
+/*
+    Expecting:
     {
         username: string,
         password: string
@@ -35,7 +61,9 @@ router.post("/users/login", (req, res) => {
                         res.status(500).send("There was an error logging in")
                     }
                     else {
-                        res.status(200).send(user.getData())
+                        res.status(200).send({
+                            user: user.getData()
+                        })
                     }
                 })
             })
@@ -107,7 +135,9 @@ router.post("/users/register", (req, res) => {
                                     res.status(500).send("There was an error logging in")
                                 }
                                 else {
-                                    res.status(201).send(user.getData())
+                                    res.status(201).send({
+                                        user: user.getData()
+                                    })
                                 }
                             })
                         })

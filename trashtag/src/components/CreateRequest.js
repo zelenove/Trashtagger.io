@@ -9,7 +9,7 @@ class CreateRequest extends React.Component {
         super()
 
         this.state = {
-            title: "",
+            location: "",
             description: "",
             markerPosition: null,
             img_url: ""
@@ -31,15 +31,16 @@ class CreateRequest extends React.Component {
     createCleanupRequest = (e) => {
         e.preventDefault()
         
-        console.log(this.state.title, this.state.description, this.state.img_url)
+        console.log(this.state.location, this.state.description, this.state.img_url)
 
         axios.post("/create-request/submit", {
             //requested_by: 
-            title: this.state.title,
+            location: this.state.location,
             description: this.state.description,
             longitude: this.state.markerPosition.lng,
             latitude: this.state.markerPosition.lat,
             request_img: this.state.img_url
+<<<<<<< HEAD
         }).then(function(res) {
             console.log('added')
           })
@@ -47,10 +48,14 @@ class CreateRequest extends React.Component {
             console.log('ERERRE')
           })
 
+=======
+        })
+>>>>>>> 46277bb1a8834c382d4815e1efbbe2017c0603de
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.title !== this.state.title
+        return true
+        if (nextState.location !== this.state.location
             || nextState.description !== this.state.description) {
             return false
         }
@@ -129,7 +134,7 @@ class CreateRequest extends React.Component {
             !this.state.markerPosition ? [] :
                 [
                     {
-                        name: this.state.title,
+                        name: this.state.location,
                         position: this.state.markerPosition
                     }
                 ]
@@ -146,8 +151,8 @@ class CreateRequest extends React.Component {
                         <div className="form-input">
                             <input className="form-field" 
                                 type="text"
-                                placeholder="Title"
-                                name="title"
+                                placeholder="Location"
+                                name="location"
                                 onChange={onFormInputChange.bind(this)} />
                         </div>
                         <div className="form-input">

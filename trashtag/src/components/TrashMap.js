@@ -6,6 +6,20 @@ import {
 import StandaloneSearchBox from "react-google-maps/lib/components/places/StandaloneSearchBox";
 import placesRequest from "./google-maps-api/places";
 
+const RenderMap = withScriptjs(withGoogleMap((props) => {
+  console.log(props)
+  return (
+    <GoogleMap
+      defaultZoom={8}
+      defaultCenter={{ lat: 43.6532, lng: -79.3832 }}
+      onClick={props.onMapClick}
+      ref={props.ref}
+    >
+      {props.markers}
+    </GoogleMap >
+  )
+}))
+
 class TrashMap extends React.Component {
   constructor() {
     super();
@@ -105,20 +119,6 @@ class TrashMap extends React.Component {
       })
     }
 
-    const Map = withScriptjs(withGoogleMap((props) => {
-      return (
-        <GoogleMap
-          defaultZoom={8}
-          defaultCenter={{ lat: 43.6532, lng: -79.3832 }}
-          onClick={this.props.onMapClick}
-          ref={this.map}
-        >
-          {markers}
-          {propMarkers}
-        </GoogleMap >
-      )
-    }))
-
     const SearchBoxPane = withScriptjs((props) => {
       return (
         <StandaloneSearchBox
@@ -172,11 +172,14 @@ class TrashMap extends React.Component {
             {trashInfo}
           </div>
         </div>
-        <Map isMarkerShown={true}
+        <RenderMap isMarkerShown={true}
           containerElement={mapContainer}
           mapElement={mapElement}
           googleMapURL={mapURL}
-          loadingElement={loadingElement} />
+          loadingElement={loadingElement}
+          markers={markers.concat(propMarkers)}
+          ref={this.map}
+          onMapClick={this.props.onMapClick} />
       </div>
     )
   }
