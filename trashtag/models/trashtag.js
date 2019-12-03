@@ -1,27 +1,26 @@
-/* Student mongoose model */
-const mongoose = require('mongoose');
-const User = require('./user');
+/* Trashtag mongoose model */
+const { mongoose } = require('../db/mongoose');
 
-const Trashtag = mongoose.Schema({
-	requested_by: {
+const TrashtagSchema = new mongoose.Schema({
+	  requested_by: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User',
-		required: true,
+		    required: true,
     },
     
     requested_date: {
-		type: Date,
-		required: true,
+        type: Date,
+        required: true,
     },
 
-	longitude: {
-		type: mongoose.Decimal128,
-		required: true,
+	  longitude: {
+        type: mongoose.Decimal128,
+        required: true,
     },
 
     latitude: {
-		type: mongoose.Decimal128,
-		required: true,
+        type: mongoose.Decimal128,
+        required: true,
     },
 
     request_img: {
@@ -40,7 +39,7 @@ const Trashtag = mongoose.Schema({
     },
 
     cleaned_date: {
-		type: Date,
+		    type: Date,
     },
 
     cleaned_img: {
@@ -49,4 +48,6 @@ const Trashtag = mongoose.Schema({
 
 });
 
+// make a model using the User schema
+const Trashtag = mongoose.model('Trashtag', TrashtagSchema)
 module.exports = { Trashtag }

@@ -1,13 +1,25 @@
 /* User model */
 'use strict';
 
-const mongoose = require('mongoose')
+const { mongoose } = require('../db/mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 
 // Making a Mongoose model a little differently: a Mongoose Schema
 // Allows us to add additional functionality.
 const UserSchema = new mongoose.Schema({
+	username: {
+		type: String,
+		required: true,
+		minlength: 4,
+		maxlength: 32,
+		trim: true,
+		unique: true,
+		validate: {
+			validator: validator.isAlphanumeric,
+			message: "That username is not valid"
+		}
+	},
 	email: {
 		type: String,
 		required: true,
@@ -16,13 +28,22 @@ const UserSchema = new mongoose.Schema({
 		unique: true,
 		validate: {
 			validator: validator.isEmail,   // custom validator
-			message: 'Not valid email'
+			message: "That email is not valid"
 		}
 	}, 
 	password: {
 		type: String,
 		required: true,
+		trim: true,
 		minlength: 6
+	},
+	numRequested: {
+		type: Number,
+		default: 0
+	},
+	numCleaned: {
+		type: Number,
+		default: 0
 	}
 })
 
@@ -48,6 +69,32 @@ UserSchema.pre('save', function(next) {
 
 // A class of functions for the user schema
 class UserClass {
+	// Find by username, to check while registering/logging in
+	static findByUsername(username) {
+		return new Promise((resolve, reject) => {
+			return this.findOne({
+				username: username
+			})
+			.then((user) => {
+				if (!user) {
+					reject({
+						status: 404,
+						message: "That user does not exist"
+					})  // a rejected promise
+				}
+				else {
+					resolve(user)
+				}
+			})
+			.catch((error) => {
+				reject({
+					status: 500,
+					message: "Error processing your request"
+				})
+			})			
+		})
+	}
+
 	// Find by email, to check while registering
 	static findByEmail(email) {
 		return new Promise((resolve, reject) => {
@@ -70,16 +117,16 @@ class UserClass {
 					status: 500,
 					message: "Error processing your request"
 				})
-			})			
+			})
 		})
 	}
 
 	// Allows us to find a User document by comparing the hashed password
 	//  to a given one, for example when logging in.
-	static findByEmailPassword(email, password) {
+	static findByUsernamePassword(username, password) {
 		// First find the user by their email
 		return new Promise((resolve, reject) => {
-			return this.findByEmail(email).then((user) => {
+			return this.findByUsername(username).then((user) => {
 				bcrypt.compare(password, user.password, (err, result) => {
 					if (result) {
 						resolve(user)
@@ -93,12 +140,19 @@ class UserClass {
 				})
 			})
 			.catch((error) => {
-				reject({
-					status: 500,
-					message: "Error processing your request"
-				})
+				reject(error)
 			})
 		})
+	}
+
+	// Extract information to send to the client
+	getData() {
+		return {
+			username: this.username,
+			email: this.email,
+			numRequested: this.numRequested,
+			numCleaned: this.numCleaned
+		}
 	}
 }
 

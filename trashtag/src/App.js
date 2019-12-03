@@ -19,7 +19,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      userName: "Guest",
+      user: "Guest",
       userIsLoggedIn: false,
       userErrorMessage: ""
     }
@@ -29,7 +29,7 @@ class App extends React.Component {
     // Successfully logged in
     this.setState({
       userIsLoggedIn: true,
-      userName: response.data.user
+      user: response.data
     })
   }
 
@@ -47,7 +47,7 @@ class App extends React.Component {
       <div className="App">
           <Router>
               <Header userIsLoggedIn={this.state.userIsLoggedIn}
-                      userName={this.state.userName}/>
+                      userName={this.state.user.username}/>
               <div className = "page-container">
                 <Switch>
                   <Route exact path = "/" component = {Home} />
@@ -58,7 +58,7 @@ class App extends React.Component {
                                                                           loggedIn={this.state.userIsLoggedIn} />} />
                   <Route exact path = "/create-request" component = {CreateRequest} />
                   <Route exact path = "/cleanups" component = {Cleanups} />
-                  <Route exact path = "/profile" render = {(props) => <Profile userName={this.state.userName} />} />
+                  <Route exact path = "/profile" render = {(props) => <Profile user={this.state.user} />} />
                   <Route path="*" render = {(props) => <Redirect to="/" />} />
                 </Switch>
               </div>

@@ -28,7 +28,7 @@ class SignIn extends React.Component {
         super();
 
         this.state = {
-            email: "",
+            username: "",
             password: "",
             userErrorMessage: ""
         }
@@ -38,7 +38,7 @@ class SignIn extends React.Component {
         e.preventDefault()
 
         axios.post("/users/login", {
-          email: this.state.email,
+          username: this.state.username,
           password: this.state.password
         })
         .then((user) => {
@@ -62,10 +62,10 @@ class SignIn extends React.Component {
                     <div className="form-input">
                         <input className="form-field"
                             type="text"
-                            name="email"
-                            placeholder="Email"
+                            name="username"
+                            placeholder="Username"
                             onChange={onFormInputChange.bind(this)}
-                            value={this.state.email} />
+                            value={this.state.username} />
                     </div>
                     <div className="form-input">
                         <input className="form-field"
@@ -98,6 +98,7 @@ class Register extends React.Component {
         super();
 
         this.state = {
+            username: "",
             email: "",
             password: "",
             userErrorMessage: ""
@@ -108,6 +109,7 @@ class Register extends React.Component {
       e.preventDefault()
 
       axios.post("/users/register", {
+        username: this.state.username,
         email: this.state.email,
         password: this.state.password
       })
@@ -128,6 +130,14 @@ class Register extends React.Component {
             <div>
                 <h2 className="user-form-header">Register</h2>
                 <form id="register" className="user-form" onSubmit={this.signUp.bind(this)}>
+                    <div className="form-input">
+                        <input className="form-field"
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            onChange={onFormInputChange.bind(this)}
+                            value={this.state.username} />
+                    </div>
                     <div className="form-input">
                         <input className="form-field"
                             type="text"

@@ -8,6 +8,7 @@ import tt1 from "../assets/images/uploads/tt1.jpg";
 
 class Profile extends React.Component {
     render() {
+        console.log(this.props)
         // Static title and about for now, all user related data would be
         // pulled from the database
         const title = "Avid trashtagger and environmental activist"
@@ -30,7 +31,7 @@ class Profile extends React.Component {
         });
 
         // Showcasing with the 2 users
-        const profilePic = this.props.userName === "user" ? user : admin
+        const profilePic = this.props.user.username === "user" ? user : admin
 
         return (
             <div className="trashmap-page-container">
@@ -43,8 +44,13 @@ class Profile extends React.Component {
                                     alt="Profile Picture" />
                             </div>
                             <div className="profile-info-block">
-                                <h2>{this.props.userName}</h2>
+                                <h2>{this.props.user.username}</h2>
                                 {title}
+                            </div>
+                            <div className="profile-info-block">
+                                Cleanups Requested: {this.props.user.numRequested}
+                                <br />
+                                Cleanups Completed: {this.props.user.numCleaned}
                             </div>
                         </div>
                         <div className="profile-description">
