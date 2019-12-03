@@ -4,19 +4,17 @@ const AutoIncrement = require("mongoose-sequence")(mongoose)
 
 const TrashtagSchema = mongoose.Schema({
   rID: {
-    type: Number,
-    required: true
+    type: Number
   }, // Auto incremented number of requests
 
   requested_by: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    type: String,
+    required: true
   },
 
   requested_date: {
 	  type: Date,
-	  default: Date.now,
+	  default: Date.now
   },
 
   location: {
@@ -30,12 +28,12 @@ const TrashtagSchema = mongoose.Schema({
   },
 
   longitude: {
-	type: mongoose.Decimal128,
+	type: mongoose.Types.Decimal128,
 	required: true,
   },
 
   latitude: {
-		type: mongoose.Decimal128,
+		type: mongoose.Types.Decimal128,
 		required: true,
   },
 
@@ -50,8 +48,7 @@ const TrashtagSchema = mongoose.Schema({
   },
 
   cleaned_by: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    type: "String"
   },
 
   cleaned_date: {
@@ -66,18 +63,6 @@ const TrashtagSchema = mongoose.Schema({
 TrashtagSchema.plugin(AutoIncrement, {
   inc_field: "rID"
 })
-
-TrashtagSchema.post("find", populateUsers)
-TrashtagSchema.post("save", populateUsers)
-
-function populateUsers(doc, next) {
-  doc.populate("requested_by")
-     .populate("cleaned_by")
-	   .execPopulate()
-	   .then(() => {
-		   next()
-	   })
-}
 
 class TrashtagClass {
     // Find by rID, the request number
@@ -115,7 +100,12 @@ class TrashtagClass {
             location: this.location,
             description: this.description,
             longitude: this.longitude,
-            latitude: this.latitude
+            latitude: this.latitude,
+            request_img: this.request_img,
+            cleaned: this.cleaned,
+            cleaned_by: this.cleaned_by,
+            cleaned_date: this.cleaned_date,
+            cleaned_img: this.cleaned_img
         }
     }
 }

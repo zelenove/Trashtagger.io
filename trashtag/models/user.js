@@ -70,17 +70,38 @@ UserSchema.pre('save', function(next) {
 })
 
 // Populate the trashtags after finding a user
-UserSchema.post("find", populateTrashtags)
-UserSchema.post("save", populateTrashtags)
+UserSchema.post("find", (docs, next) => {
+    Promise.all(docs.map((doc) => {
+        return populateTrashtags(doc)
+    }))
+    .then((docs) => {
+        next()
+    })
+})
 
-function populateTrashtags(doc, next) {
-	doc.populate("requested_cleanups")
-	   .populate("completed_cleanups")
-	   .execPopulate()
-	   .then(() => {
-		   next()
-	   })
+UserSchema.post("findOne", (doc, next) => {
+    if (doc) {
+        populateTrashtags(doc).then((doc) => {
+            next()
+        })
+    }
+    else {
+        next()
+    }
+})
+
+UserSchema.post("save", (doc, next) => {
+    populateTrashtags(doc).then((doc) => {
+        next()
+    })
+})
+
+function populateTrashtags(doc) {
+	return doc.populate("requested_cleanups")
+                .populate("completed_cleanups")
+                .execPopulate()
 }
+
 
 // A class of functions for the user schema
 class UserClass {
@@ -162,12 +183,19 @@ class UserClass {
 
 	// Extract information to send to the client
 	getData() {
-		//console.log(this.populate)
+        const requested = this.requested_cleanups.map((cleanup) => {
+            return cleanup.getData()
+        })
+
+        const cleaned = this.completed_cleanups.map((cleanup) => {
+            return cleanup.getData()
+        })
+
 		return {
 			username: this.username,
 			email: this.email,
-			requested_cleanups: this.requested_cleanups,
-			completed_cleanups: this.completed_cleanups
+			requested_cleanups: requested,
+			completed_cleanups: cleaned
 		}
 	}
 }

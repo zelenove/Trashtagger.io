@@ -15,11 +15,12 @@ router.get("/users/:username", (req, res) => {
     }
     else {
         User.findByUsername(username).then((user) => {
+            const userData = user.getData()
             res.status(200).send({
                 user: {
-                    username: user.username,
-                    requested_cleanups: user.requested_cleanups,
-                    completed_cleanups: user.completed_cleanups
+                    username: userData.username,
+                    requested_cleanups: userData.requested_cleanups,
+                    completed_cleanups: userData.completed_cleanups
                 }
             })
         })
