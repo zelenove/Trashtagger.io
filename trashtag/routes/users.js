@@ -15,11 +15,12 @@ router.get("/users/:username", (req, res) => {
     }
     else {
         User.findByUsername(username).then((user) => {
+            const userData = user.getData()
             res.status(200).send({
                 user: {
-                    username: user.username,
-                    requested_cleanups: user.requested_cleanups,
-                    completed_cleanups: user.completed_cleanups
+                    username: userData.username,
+                    requested_cleanups: userData.requested_cleanups,
+                    completed_cleanups: userData.completed_cleanups
                 }
             })
         })
@@ -56,7 +57,7 @@ router.post("/users/login", (req, res) => {
                 // We can check later if this exists to ensure we are logged in.
                 req.session.user = user
 
-                req.session.save((error) => {   
+                req.session.save((error) => {
                     if (error) {
                         res.status(500).send("There was an error logging in")
                     }
@@ -71,7 +72,7 @@ router.post("/users/login", (req, res) => {
                 res.status(error.status).send(error.message)
             });
     }
-    
+
 });
 
 /*
@@ -150,5 +151,9 @@ router.post("/users/register", (req, res) => {
         })
     }
 });
+
+router.post("/users/logout", (req, res) => {
+
+})
 
 module.exports = router;

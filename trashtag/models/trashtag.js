@@ -3,20 +3,18 @@ const { mongoose } = require('../db/mongoose');
 const AutoIncrement = require("mongoose-sequence")(mongoose)
 
 const TrashtagSchema = mongoose.Schema({
-  // rID: {
-  //   type: Number,
-  //   required: true
-  // }, // Auto incremented number of requests
+  rID: {
+    type: Number
+  }, // Auto incremented number of requests
 
-	// requested_by: {
-  //   type: mongoose.Schema.Types.ObjectId, 
-  //   ref: 'User',
-  //   required: true,
-  // },
+  requested_by: {
+    type: String,
+    required: true
+  },
 
   requested_date: {
 	  type: Date,
-		default: Date.now,
+	  default: Date.now
   },
  
   location: {
@@ -52,8 +50,7 @@ const TrashtagSchema = mongoose.Schema({
   },
 
   cleaned_by: {
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User'
+    type: "String"
   },
 
   cleaned_date: {
@@ -70,31 +67,49 @@ TrashtagSchema.plugin(AutoIncrement, {
 })
 
 class TrashtagClass {
-  // Find by rID, the request number
-  static findByRID(rID) {
-    return new Promise((resolve, reject) => {
-			return this.findOne({
-				rID: rID
-			})
-			.then((cleanup) => {
-				if (!cleanup) {
-					reject({
-						status: 404,
-						message: "That cleanup request does not exist"
-					})  // a rejected promise
-				}
-				else {
-					resolve(cleanup)
-				}
-			})
-			.catch((error) => {
-				reject({
-					status: 500,
-					message: "Error processing your request"
-				})
-			})
-		})
-  }
+    // Find by rID, the request number
+    static findByRID(rID) {
+        return new Promise((resolve, reject) => {
+                return this.findOne({
+                    rID: rID
+                })
+                .then((cleanup) => {
+                    if (!cleanup) {
+                        reject({
+                            status: 404,
+                            message: "That cleanup request does not exist"
+                        })  // a rejected promise
+                    }
+                    else {
+                        resolve(cleanup)
+                    }
+                })
+                .catch((error) => {
+                    reject({
+                        status: 500,
+                        message: "Error processing your request"
+                    })
+                })
+            })
+    }
+
+    // Retrieve the data to be send to the client
+    getData() {
+        return {
+            rID: this.rID,
+            requested_by: this.requested_by,
+            requested_date: this.requested_date,
+            location: this.location,
+            description: this.description,
+            longitude: this.longitude,
+            latitude: this.latitude,
+            request_img: this.request_img,
+            cleaned: this.cleaned,
+            cleaned_by: this.cleaned_by,
+            cleaned_date: this.cleaned_date,
+            cleaned_img: this.cleaned_img
+        }
+    }
 }
 
 TrashtagSchema.loadClass(TrashtagClass)

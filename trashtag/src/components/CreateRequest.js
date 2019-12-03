@@ -33,14 +33,15 @@ class CreateRequest extends React.Component {
         
         console.log(this.state.location, this.state.description, this.state.img_url)
 
-        axios.post("/create-request/submit", {
+        axios.post("/trashtags/create", {
             //requested_by: 
             location: this.state.location,
             description: this.state.description,
             longitude: this.state.markerPosition.lng,
             latitude: this.state.markerPosition.lat,
-            request_img: this.state.img_url
+            requestImg: this.state.img_url
         }).then(function(res) {
+
             console.log('added')
           })
           .catch((error) => {
@@ -149,6 +150,7 @@ class CreateRequest extends React.Component {
                                 type="text"
                                 placeholder="Location"
                                 name="location"
+                                value= {this.state.location}
                                 onChange={onFormInputChange.bind(this)} />
                         </div>
                         <div className="form-input">
@@ -160,6 +162,7 @@ class CreateRequest extends React.Component {
                                 placeholder="Description (Max 256 Characters)"
                                 maxLength="256"
                                 rows="5"
+                                value= {this.state.description}
                                 required />
                         </div>
 

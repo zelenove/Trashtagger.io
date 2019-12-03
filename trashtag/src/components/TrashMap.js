@@ -10,7 +10,6 @@ import Popup from "reactjs-popup";
 
 
 const RenderMap = withScriptjs(withGoogleMap((props) => {
-  console.log(props)
   return (
     <GoogleMap
       defaultZoom={8}
@@ -156,7 +155,7 @@ class TrashMap extends React.Component {
         </InfoWindow>
       </Marker>
     )
-  }
+    }
 
   makeMarkerObj1 = (marker) => {
 
