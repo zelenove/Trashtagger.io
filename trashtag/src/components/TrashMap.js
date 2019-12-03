@@ -65,10 +65,9 @@ class TrashMap extends React.Component {
       ,
       searchResults: [],
       pagination: null,
-      counter: 2,
       text: ' ',
-      
-      
+
+
     }
 
     this.map = React.createRef()
@@ -117,20 +116,13 @@ class TrashMap extends React.Component {
   }
 
   getTrash = () => {
-    
+    axios.get("/trashtags", {
 
-    
-    const url = 'all-trashtags'
-    
-    axios.get("/all-trashtags", {
-    
-  }).then((res) => {
+    }).then((res) => {
      // this.state.markers = res.data.trashtags
       this.setState({
-        markers: res.data.trashtags 
+        markers: res.data.cleanups
       })
-     
-      
     })
     .catch((error) => {
       console.log(error)
@@ -139,12 +131,12 @@ class TrashMap extends React.Component {
 
   makeMarkerObj = (marker) => {
 
-    
+
     let position = {
       lat : (marker.latitude),
       lng : (marker.longitude)
     }
-    
+
     return (
       <Marker key={marker.id} name={marker.location} position={position}
         onClick={this.onMarkerClick}>
@@ -159,9 +151,9 @@ class TrashMap extends React.Component {
 
   makeMarkerObj1 = (marker) => {
 
-    
-    
-    
+
+
+
     return (
       <Marker key={marker.id} name={marker.name} position={marker.position}
         onClick={this.onMarkerClick}>
@@ -179,19 +171,20 @@ class TrashMap extends React.Component {
   }
 
   render() {
+      console.log(this.state)
     // Some random api key off stack overflow
     const mapURL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,geometry&key=AIzaSyA7XEFRxE4Lm28tAh44M_568fCLOP_On3k';
     const markers = this.state.markers.map((marker) => this.makeMarkerObj(marker))
-    
-    
+
+
     const trash_locations = []
-    const trash_names = this.state.markers.map((marker) => trash_locations.push(marker.location)) 
-       
+    const trash_names = this.state.markers.map((marker) => trash_locations.push(marker.location))
+
 
     let propMarkers;
     if (this.props.markers) {
       propMarkers = this.props.markers.map((marker) => {
-        
+
         const markerOb = {
           id: 0, // Temporary id for show
           name: marker.name,
@@ -200,53 +193,34 @@ class TrashMap extends React.Component {
           position: marker.position
         }
 
-       
+
 
         return this.makeMarkerObj1(markerOb)
       })
     }
-    
-    
-   
+
+
     const mapContainer = <div className="trashmap-container" />
     const mapElement = <div className="trashmap-map-element" />
     const loadingElement = <div className="trashmap-loading-element" />
 
     // This info would be pulled from the database, static for now
-    const trashInfo = [
-      (
-        <div className="trashmap-info-block">
-          <div className="trashmap-info-text">
-            <h3>Queen's Park</h3>
-            Severity: High
-          </div>
-        </div>
-      ),
-      (
-        <div className="trashmap-info-block">
-          <div className="trashmap-info-text">
-            <h3>Bolton's Ranch</h3>
-            Severity: Medium
-          </div>
-        </div>
-      ),
-      (
-        <div className="trashmap-info-block">
-          <div className="trashmap-info-text">
-            <h3>Niagara Falls</h3>
-            Severity: Low
-          </div>
-        </div>
-      ),
-    ]
-    const trash_Info = trash_locations.map((location) => (
-      <div className="trashmap-info-block">
-        <div className="trashmap-info-text">
-          <h3>{location}</h3>
-         
-        </div>
-      </div>
-    ) )
+    const trashInfo = this.state.markers.map((marker) => {
+        // Only get the date
+        const reqDateT = new Date(marker.requested_date)
+        const reqDate = reqDateT.getFullYear() + "/" + reqDateT.getMonth()
+                        + "/" + reqDateT.getDate()
+        return (
+            <button className="trashmap-info-block">
+                <div className="trashmap-info-text">
+                    <h3>{marker.location}</h3>
+                    <h6>Requested By: {marker.requested_by} on</h6>
+                    {reqDate}
+                </div>
+            </button>
+        )
+    })
+
     return (
       <div className="trashmap-all-container">
         <div className="trashmap-sidepane">
@@ -257,7 +231,7 @@ class TrashMap extends React.Component {
               onSearchSelected = {this.onSearchSelected} />
           </div>
           <div className="trashmap-info-pane">
-            {trash_Info}
+            {trashInfo}
           </div>
         </div>
         <RenderMap isMarkerShown={true}
