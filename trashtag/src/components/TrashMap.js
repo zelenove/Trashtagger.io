@@ -7,7 +7,6 @@ import StandaloneSearchBox from "react-google-maps/lib/components/places/Standal
 import placesRequest from "./google-maps-api/places";
 
 const RenderMap = withScriptjs(withGoogleMap((props) => {
-  console.log(props)
   return (
     <GoogleMap
       defaultZoom={8}
@@ -19,6 +18,15 @@ const RenderMap = withScriptjs(withGoogleMap((props) => {
     </GoogleMap >
   )
 }))
+
+const SearchBoxPane = withScriptjs((props) => {
+  return (
+    <StandaloneSearchBox
+      onPlacesChanged={props.onSearchSelected}>
+      <input type="text" placeholder="Search for a trash site" />
+    </StandaloneSearchBox>
+  )
+})
 
 class TrashMap extends React.Component {
   constructor() {
@@ -119,15 +127,6 @@ class TrashMap extends React.Component {
       })
     }
 
-    const SearchBoxPane = withScriptjs((props) => {
-      return (
-        <StandaloneSearchBox
-          onPlacesChanged={this.onSearchSelected}>
-          <input type="text" placeholder="Search for a trash site" />
-        </StandaloneSearchBox>
-      )
-    })
-
     const mapContainer = <div className="trashmap-container" />
     const mapElement = <div className="trashmap-map-element" />
     const loadingElement = <div className="trashmap-loading-element" />
@@ -166,7 +165,8 @@ class TrashMap extends React.Component {
           <div className="trashmap-search-box">
             <SearchBoxPane
               googleMapURL={mapURL}
-              loadingElement={<div className="trashmap-search-box" />} />
+              loadingElement={<div className="trashmap-search-box"
+              onSearchSelected={this.onSearchSelected} />} />
           </div>
           <div className="trashmap-info-pane">
             {trashInfo}

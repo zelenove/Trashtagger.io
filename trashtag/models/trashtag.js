@@ -9,7 +9,7 @@ const TrashtagSchema = mongoose.Schema({
   }, // Auto incremented number of requests
 
 	requested_by: {
-    type: mongoose.Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
@@ -18,13 +18,8 @@ const TrashtagSchema = mongoose.Schema({
 	  type: Date,
 		default: Date.now,
   },
-<<<<<<< HEAD
- 
-  title: {
-=======
 
   location: {
->>>>>>> 46277bb1a8834c382d4815e1efbbe2017c0603de
     type: String,
     required: true
   },
@@ -55,7 +50,7 @@ const TrashtagSchema = mongoose.Schema({
   },
 
   cleaned_by: {
-    type: mongoose.Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
 
@@ -71,6 +66,18 @@ const TrashtagSchema = mongoose.Schema({
 TrashtagSchema.plugin(AutoIncrement, {
   inc_field: "rID"
 })
+
+TrashtagSchema.post("find", populateUsers)
+TrashtagSchema.post("save", populateUsers)
+
+function populateUsers(doc, next) {
+  doc.populate("requested_by")
+     .populate("cleaned_by")
+	   .execPopulate()
+	   .then(() => {
+		   next()
+	   })
+}
 
 class TrashtagClass {
   // Find by rID, the request number

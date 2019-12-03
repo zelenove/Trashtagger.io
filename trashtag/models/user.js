@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
 			validator: validator.isEmail,   // custom validator
 			message: "That email is not valid"
 		}
-	}, 
+	},
 	password: {
 		type: String,
 		required: true,
@@ -59,7 +59,7 @@ UserSchema.pre('save', function(next) {
 	if (this.isModified('password')) {
 		// generate salt and hash the password
 		bcrypt.genSalt(10, (err, salt) => {
-			bcrypt.hash(user.password, salt, (err, hash) => {
+			bcrypt.hash(this.password, salt, (err, hash) => {
 				this.password = hash
 				next()
 			})
@@ -74,7 +74,7 @@ UserSchema.post("find", populateTrashtags)
 UserSchema.post("save", populateTrashtags)
 
 function populateTrashtags(doc, next) {
-	doc.populated("requested_cleanups")
+	doc.populate("requested_cleanups")
 	   .populate("completed_cleanups")
 	   .execPopulate()
 	   .then(() => {
@@ -106,7 +106,7 @@ class UserClass {
 					status: 500,
 					message: "Error processing your request"
 				})
-			})			
+			})
 		})
 	}
 

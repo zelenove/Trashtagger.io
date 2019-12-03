@@ -26,21 +26,20 @@ class CreateRequest extends React.Component {
             }
         })
     }
-  
+
     // To be used only if a user is logged in
     createCleanupRequest = (e) => {
         e.preventDefault()
-        
+
         console.log(this.state.location, this.state.description, this.state.img_url)
 
         axios.post("/create-request/submit", {
-            //requested_by: 
+            //requested_by:
             location: this.state.location,
             description: this.state.description,
             longitude: this.state.markerPosition.lng,
             latitude: this.state.markerPosition.lat,
             request_img: this.state.img_url
-<<<<<<< HEAD
         }).then(function(res) {
             console.log('added')
           })
@@ -48,9 +47,6 @@ class CreateRequest extends React.Component {
             console.log('ERERRE')
           })
 
-=======
-        })
->>>>>>> 46277bb1a8834c382d4815e1efbbe2017c0603de
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -114,7 +110,7 @@ class CreateRequest extends React.Component {
     //         const message = document.querySelector('#message')
     //         if (res.status === 200) {
     //             console.log('Added request')
-                
+
     //         }
     //         else {
     //             console.log('erer')
@@ -149,7 +145,7 @@ class CreateRequest extends React.Component {
                         <h2 className="user-form-header">Create Request</h2>
                         <div className= "message"></div>
                         <div className="form-input">
-                            <input className="form-field" 
+                            <input className="form-field"
                                 type="text"
                                 placeholder="Location"
                                 name="location"
@@ -179,9 +175,9 @@ class CreateRequest extends React.Component {
                         <input type="submit"
                             className="form-submit button-border-g"
                             value="Submit Request" />
-                            
+
                             <img src={this.state.img_url} />
-                            
+
                     </div>
                 </form>
             </div>
