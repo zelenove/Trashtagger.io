@@ -1,12 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ScrollMenu from "react-horizontal-scrolling-menu";
-
+import Combiner from "./Combiner"
 import homeHero from "../assets/images/hero-home.jpg";
-
-import tt1 from "../assets/images/uploads/tt1.jpg";
-import tt2 from "../assets/images/uploads/tt2.jpg";
-import tt3 from "../assets/images/uploads/tt3.jpg";
 
 const Arrow = ({ text, className }) => {
   return (
@@ -18,30 +14,51 @@ const Arrow = ({ text, className }) => {
 const ArrowLeft = Arrow({ text: '<' });
 const ArrowRight = Arrow({ text: '>' });
 
-const MenuItem = ({img, name, selected}) => {
-  console.log({img, name, selected});
-  return <div
-    className={`menu-item ${selected ? 'active' : ''}`}
-    ><h1>{name}</h1><img src={img} /></div>;
+// const MenuItem = ({text}) => {
+//   return <div className="menu-item">{text}</div>;
+// };
+
+// export const Menu = (list) =>
+//   list.map(el => {
+//     const { name } = el;
+
+//     return <MenuItem text={name} key={name} />;
+//   });
+
+const MenuItem = ({before, after}) => {
+  return <Combiner before = {before} after = {after} />;
 };
 
-export const Menu = (list, selected) =>
+export const Menu = (list) =>
   list.map(el => {
-    const {name, img} = el;
-
-    return <MenuItem img={img} key={name} selected={selected} name={name} />;
+    const { before, after, id } = el;
+    //return <Combiner before = {el.before} after = {el.after} />
+    return <MenuItem before={before} after={after} key={id}/>;
   });
 
 
 class Home extends React.Component {
   render() {
-    const pics = [{name: "Woodbine Beach", img: tt1},
-                    {name: "Brent National Park", img: tt2},
-                    {name: "Kensley Lake", img: tt3}];
+    const featured = [{id: "1",
+                      before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                      after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
+                      {id: "2",
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                      after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
+                      {id: "3",
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                      after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
+                      {id: "4",
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                      after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
+                      {id: "5",
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                      after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
+                      {id: "6",
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                      after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"}];
 
-    let selected = "Brent National Park";
-
-    const menuItems = Menu(pics, selected);
+    const menuItems = Menu(featured);
 
     return (
       <div>
@@ -59,15 +76,13 @@ class Home extends React.Component {
           </div>
         </div>
         <div className = "trending-container">
-          <h1 className = "trending-heading">Trending This Week</h1>
+          <h1 className = "trending-heading">Trending This Week:</h1>
           <ScrollMenu
             data={menuItems}
             arrowLeft={ArrowLeft}
             arrowRight={ArrowRight}
-            selected={selected}
-            onSelect={this.onSelect}
             wheel={false}
-            itemClass={'innerWrapper'}
+            scrollToSelected={true}
           />
         </div>
       </div>
