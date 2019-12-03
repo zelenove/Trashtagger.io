@@ -5,7 +5,7 @@ const validator = require("validator")
 const { Trashtag } = require('../models/trashtag')
 
 
-router.post("trashtags/create", (req, res) => {
+router.post("/create-request/submit", (req, res) => {
 
     const trashtag = new Trashtag({
         //requested_by: req.body.requested_by,
@@ -13,9 +13,9 @@ router.post("trashtags/create", (req, res) => {
         description: req.body.location,
         //longitude: req.body.longitude,
         //latitude: req.body.latitude,
-        request_img: req.body.request_img
+       // request_img: req.body.request_img
     });
-
+    console.log('erere')
     trashtag.save()
 		.then(result => {
 			res.send(result);
