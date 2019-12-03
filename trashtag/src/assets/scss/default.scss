@@ -223,7 +223,9 @@ button {
 }
 
 #home-hero-block {
-  @include translate(-50%, -70%);
+  margin: 0 auto;
+  display: block;
+  text-align: center;
 }
 
 #home-hero-img {
