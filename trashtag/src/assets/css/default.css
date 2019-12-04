@@ -231,22 +231,27 @@ header {
 .transparent {
   background-color: transparent; }
 
-footer {
-  position: absolute;
-  display: block;
-  clear: both;
+.footer2 {
+  position: relative;
   width: 100%;
-  color: #ffffff;
-  height: 65px;
-  bottom: 0; }
-  footer .logo {
+  background-color: black;
+  min-height: 65px;
+  bottom: 0;
+  text-align: center;
+  line-height: ce;
+  color: aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em; }
+  .footer2 .logo {
     position: absolute;
     top: 50%;
     left: 25%;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     transform: translateY(-50%); }
-  footer .copyright {
+  .footer2 .copyright {
     position: absolute;
     top: 50%;
     left: 15px;
@@ -257,8 +262,7 @@ footer {
 
 .page-container {
   width: 100%;
-  height: 100%;
-  min-height: 100vh; }
+  min-height: 80vh; }
 
 .text-center {
   text-align: center; }
@@ -423,7 +427,7 @@ footer {
 .form-input {
   position: relative;
   width: 80%;
-  margin-bottom: 45px; }
+  margin-bottom: 20px; }
   .form-input label {
     color: #010000;
     position: absolute;
@@ -431,6 +435,9 @@ footer {
     left: 5px;
     top: 5px;
     transition: all 0.2s ease; }
+
+input {
+  width: 80%; }
 
 .form-field, .form-text-area {
   font-size: 18px;
@@ -459,13 +466,14 @@ footer {
 
 .trending-container {
   margin: 0 auto;
-  width: 75%; }
+  width: 75%;
+  padding-bottom: 5%; }
   .trending-container h1 {
     font-weight: bold;
     font-size: 3.5em; }
   .trending-container .trending-heading {
     margin-bottom: 50px;
-    font-size: 2em; }
+    font-size: 2.5em; }
   .trending-container .trending-block {
     margin-bottom: 50px;
     height: 75vh;
@@ -487,3 +495,7 @@ footer {
   width: 25%vh;
   max-width: 600px;
   padding: 20px; }
+
+.scroll-menu-arrow {
+  font-size: 2em;
+  padding: 10px; }

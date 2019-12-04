@@ -41,12 +41,10 @@ class TrashMap extends React.Component {
       searchResults: [],
       pagination: null,
       map: null,
-      completed_img_url: ""
-      
-      
+      completed_img_url: "",
+      selectedMarker: {}
     }
 
-    this.selectedMarker = React.createRef()
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
   }
@@ -56,16 +54,23 @@ class TrashMap extends React.Component {
   }
 
   openModal() {
-    this.setState({ open: true });
+    this.setState({
+      open: true
+    });
   }
+
   closeModal() {
-    this.setState({ open: false });
+    this.setState({
+      open: false
+    });
   }
- 
+
   onMarkerClick = (marker) => {
-    const { lat, lng } = marker.latLng
-    console.log(lat())
-    this.selectedMarker.current = marker
+    this.setState({
+      selectedMarker: marker
+    })
+
+    this.openModal()
 
     // Just a test api call
     const request = {
@@ -85,62 +90,45 @@ class TrashMap extends React.Component {
     //     console.log(error)
     //   })
 
-    const map_filter_1 = this.state.markers.filter((element) => element.latitude === lat())
-    const map_filter_2 = map_filter_1.find((element) => element.longitude === lng())
-    console.log(map_filter_2)
-
-    this.selectedMarker = map_filter_2
-
-    console.log(this.selectedMarker)
-    
-      this.openModal()
-
-
   }
 
   getTrash = () => {
-    axios.get("/trashtags", {
-    
-  }).then((res) => {
-     // this.state.markers = res.data.trashtags
-      this.setState({
-        markers: res.data.cleanups
-      })
-     
-      
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+    axios.get("/trashtags")
+         .then((res) => {
+              const cleanups = res.data.cleanups.filter((cleanup) => {
+                return !cleanup.cleaned
+              })
+              .map((cleanup) => {
+                  // Format the date
+                  const reqDateT = new Date(cleanup.requested_date)
+                  const reqDate = reqDateT.getFullYear() + "/" + (reqDateT.getMonth() + 1)
+                            + "/" + reqDateT.getDate()
+                  cleanup.requested_date = reqDate
+
+                  return cleanup
+              })
+
+              this.setState({
+                  markers: cleanups
+              })
+          })
+          .catch((error) => {
+            console.log(error)
+          })
   }
 
   makeMarkerObj = (marker) => {
-
-    
-    let position = {
-      lat : (marker.latitude),
-      lng : (marker.longitude)
+    const position = {
+      lat : marker.latitude,
+      lng : marker.longitude
     }
-    
+
     return (
       <Marker key={marker.id} name={marker.location} position={position}
-        onClick={this.onMarkerClick}>
+        onClick={() => {this.onMarkerClick(marker)}}>
         <InfoWindow>
           <div>
             {marker.location}
-          </div>
-        </InfoWindow>
-      </Marker>
-    )
-    }
-
-  makeMarkerObj1 = (marker) => {
-    return (
-      <Marker key={marker.id} name={marker.name} position={marker.position}
-        onClick={this.onMarkerClick}>
-        <InfoWindow>
-          <div>
-            {marker.name}
           </div>
         </InfoWindow>
       </Marker>
@@ -186,122 +174,91 @@ class TrashMap extends React.Component {
       });
     }
 
-    submitRequest = (e) => {
+  completeRequest = (e) => {
+    e.preventDefault()
+    console.log(this.state.selectedMarker.rID)
 
-      e.preventDefault()
-      console.log(this.selectedMarker.rID)
+    axios.post("/trashtags/complete-request", {
+      //requested_by:
+      rID: this.state.selectedMarker.rID,
+      cleanedImg: this.state.completed_img_url
 
-
-
-      axios.post("/trashtags/complete-request", {
-        //requested_by:
-        rID: this.selectedMarker.rID,
-        cleanedImg: this.state.completed_img_url
-        
-    }).then(function(res) {
-
-        console.log('submitted')
-      })
-      .catch((error) => {
-          
-        console.log('ERERRE')
-      })
-    }
-  
+    }).then((res) => {
+      console.log('submitted')
+    })
+    .catch((error) => {
+      console.log('ERERRE')
+    })
+  }
 
   render() {
     // Some random api key off stack overflow
     const mapURL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,geometry&key=AIzaSyA7XEFRxE4Lm28tAh44M_568fCLOP_On3k';
     const markers = this.state.markers.map((marker) => {
-      if (!marker.cleaned){
-      return(
-        this.makeMarkerObj(marker))
-      }
+      return this.makeMarkerObj(marker)
     })
-    
-    
-    const trash_locations = []
-    const trash_names = this.state.markers.map((marker) => trash_locations.push(marker.location)) 
-       
 
-    let propMarkers;
+    let propMarkers = []
     if (this.props.markers) {
       propMarkers = this.props.markers.map((marker) => {
-        
         const markerOb = {
-          id: 0, // Temporary id for show
-          name: marker.name,
-          //latitude: marker.latitude,
-          //longitude: marker.longitude
-          position: marker.position
+          id: markers.length, // Temporary id for show
+          location: marker.location,
+          latitude: marker.latitude,
+          longitude: marker.longitude
         }
 
-       
-
-        return this.makeMarkerObj1(markerOb)
+        return this.makeMarkerObj(markerOb)
       })
     }
-    
-    
-   
+
     const mapContainer = <div className="trashmap-container" />
     const mapElement = <div className="trashmap-map-element" />
     const loadingElement = <div className="trashmap-loading-element" />
 
     const trashInfo = this.state.markers.map((marker) => {
-      // Only get the date
-      if (!marker.cleaned){
-      const reqDateT = new Date(marker.requested_date)
-      const reqDate = reqDateT.getFullYear() + "/" + reqDateT.getMonth()
-                      + "/" + reqDateT.getDate()
       return (
-          <button className="trashmap-info-block" marker={marker}
-              onClick={() => this.onSidePaneClick(marker)}>
-              <div className="trashmap-info-text">
-                  <h2>{marker.location}</h2>
-                  <h4>Requested by {marker.requested_by} on {reqDate}</h4>
-              </div>
-          </button>
+        <button className="trashmap-info-block" marker={marker}
+            onClick={() => this.onSidePaneClick(marker)}>
+            <div className="trashmap-info-text">
+                <h2>{marker.location}</h2>
+                <h4>Requested by {marker.requested_by} on {marker.requested_date}</h4>
+            </div>
+        </button>
       )
-    }
     })
-
-    
 
     const popup_text = (
       <div className="PopupText">
         <h3>Location:</h3>
-          <p>{this.selectedMarker.location}</p>
+          <p>{this.state.selectedMarker.location}</p>
           <h3>Description:</h3>
-          <p>{this.selectedMarker.description}</p>
+          <p>{this.state.selectedMarker.description}</p>
           <h3>Requested by:</h3>
-          <p>{this.selectedMarker.requested_by}</p>
+          <p>{this.state.selectedMarker.requested_by}</p>
           <h3>Requested Date:</h3>
-          <p>{this.selectedMarker.requested_date}</p>
+          <p>{this.state.selectedMarker.requested_date}</p>
           <h3 >Requested Image</h3>
-          <div ><img  src={this.selectedMarker.request_img }/></div>
-          
-
-
+          <div>
+            <img alt={`${this.state.selectedMarker.location} + " Request`}
+                  src={this.state.selectedMarker.request_img} />
+          </div>
       </div>
     )
 
-
-
-    
     return (
       <div className="trashmap-all-container">
-      <div className="trashmap-sidepane">
-        <div className="trashmap-search-box">
-          <SearchBoxPane
-            googleMapURL={mapURL}
-            loadingElement={<div className="trashmap-search-box" />}
-            onSearchSelected = {this.onSearchSelected} />
+        <div className="trashmap-sidepane">
+          <div className="trashmap-search-box">
+            <SearchBoxPane
+              googleMapURL={mapURL}
+              loadingElement={<div className="trashmap-search-box" />}
+              onSearchSelected = {this.onSearchSelected} />
+          </div>
+          <div className="trashmap-info-pane">
+            {trashInfo}
+          </div>
         </div>
-        <div className="trashmap-info-pane">
-          {trashInfo}
-        </div>
-      </div>
         <RenderMap isMarkerShown={true}
           containerElement={mapContainer}
           mapElement={mapElement}
@@ -323,12 +280,10 @@ class TrashMap extends React.Component {
                 {popup_text}
                    <br></br>
                  <button onClick = {this.showWidget} >Submit Finished Picture</button>
-                 <button onClick = {this.submitRequest}>Complete Request</button>
-                 
-
-             </div>
-            </Popup>
-         </div>
+                 <button onClick = {this.completeRequest}>Complete Request</button>
+          </div>
+        </Popup>
+      </div>
     )
   }
 }

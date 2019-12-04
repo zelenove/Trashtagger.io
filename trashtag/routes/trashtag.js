@@ -7,37 +7,21 @@ const { User } = require("../models/user")
 
 /*
     Expecting:
-    {
-        (optional) cleaned: bool
-    }
+    No body
 */
 router.get('/trashtags', (req, res) => {
-    const { cleaned } = req.query
-
-    if (cleaned && typeof cleaned !== "bool") {
-        res.status(400).send("Cleaned is an invalid type")
-    }
-    else {
-        const query = Trashtag.find()
-
-        if (cleaned !== undefined) {
-            query = query.where("cleaned").equals(cleaned)
-            console.log("yes")
-        }
-
-        query.then((trashtags) => {
-            const trashtagsInfo = trashtags.map((trashtag) => {
-                return trashtag.getData()
-            })
-    
-            res.status(200).send({
-                cleanups: trashtagsInfo
-            })
+    Trashtag.find().then((trashtags) => {
+        const trashtagsInfo = trashtags.map((trashtag) => {
+            return trashtag.getData()
         })
-        .catch((error) => {
-            res.status(500).send("Error getting cleanups")
+
+        res.status(200).send({
+            cleanups: trashtagsInfo
         })
-    }
+    })
+    .catch((error) => {
+        res.status(500).send("Error getting cleanups")
+    })
 })
 
 router.post("/trashtags/create-request", checkAuth, (req, res) => {
@@ -103,7 +87,7 @@ router.post("/trashtags/create-request", checkAuth, (req, res) => {
 
 router.post("/trashtags/complete-request", (req, res) => {
     const { rID, cleanedImg } = req.body
-    
+
     if (typeof rID !== "number") {
         res.status(404).send("That cleanup request does not exist")
     }
@@ -112,23 +96,23 @@ router.post("/trashtags/complete-request", (req, res) => {
     }
     else {
         Trashtag.findByRID(rID).then((cleanupRequest) => {
-           
+
             if (cleanupRequest.cleaned) {
                 res.status(401).send("That cleanup request has already been completed")
             }
             else {
                 // Find the user to update his cleanups
-                
+
                 User.findById(req.session.user._id).then((user) => {
-                   
+
                     cleanupRequest.cleaned = true
                     cleanupRequest.cleaned_by = user.username
                     cleanupRequest.cleaned_date = Date.now()
                     cleanupRequest.cleaned_img = cleanedImg
-                    
+
                     cleanupRequest.save()
                         .then(result => {
-                            
+
                             user.completed_cleanups.push(result._id)
                             user.save().then((userRes) => {
                                 res.status(200).send({
@@ -154,13 +138,13 @@ router.post("/trashtags/complete-request", (req, res) => {
                             res.status(500).send(error)
                         })
                 }).catch ((error) => {
-                    
+
                     res.send(error)
                 })
             }
         })
         .catch((error) => {
-           
+
             res.status(error.status).send(error.message)
         })
     }

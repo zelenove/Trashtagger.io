@@ -15,15 +15,19 @@ class Cleanups extends React.Component {
 
     componentDidMount() {
         axios.get("/trashtags", {
-            // params: {
-            //     cleaned: true
-            // }
+            params: {
+                 cleaned: true
+            }
         })
         .then((response) => {
-            this.setState({
-                cleanups: response.data.cleanups
+            const cleanups = response.data.cleanups.filter((cleanup) => {
+                return cleanup.cleaned
             })
-            
+
+            this.setState({
+                cleanups: cleanups
+            })
+
         })
         .catch((error) => {
             // Error getting cleanups
@@ -31,11 +35,7 @@ class Cleanups extends React.Component {
     }
 
     render() {
-
-        console.log(this.state.cleanups)
-        const result = this.state.cleanups.filter(cleanup=> cleanup.cleaned === true);
-        
-        const cleanupBlocks = result.map((cleanup) => {
+        const cleanupBlocks = this.state.cleanups.map((cleanup) => {
             const before = {
                 src: cleanup.request_img,
                 alt: cleanup.location + " request"
@@ -48,7 +48,7 @@ class Cleanups extends React.Component {
 
             return (
                 <Link to={"/user/" + cleanup.cleaned_by} className="trending-block">
-                    <h1>{cleanup.location} by {cleanup.cleaned_by}</h1>
+                    <h2>{cleanup.location} by {cleanup.cleaned_by}</h2>
                     <Combiner before={before} after={after} />
                 </Link>
             );

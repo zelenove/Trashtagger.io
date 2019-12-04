@@ -1,8 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import axios from "axios";
+
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import Combiner from "./Combiner"
 import homeHero from "../assets/images/hero-home.jpg";
+
+const NUMBER_OF_TRENDING = 5
 
 const Arrow = ({ text, className }) => {
   return (
@@ -11,6 +14,7 @@ const Arrow = ({ text, className }) => {
     >{text}</div>
   );
 };
+
 const ArrowLeft = Arrow({ text: '<' });
 const ArrowRight = Arrow({ text: '>' });
 
@@ -38,27 +42,71 @@ export const Menu = (list) =>
 
 
 class Home extends React.Component {
+  constructor() {
+    super()
+
+    this.state = {
+      trending: []
+    }
+  }
+
+  componentDidMount() {
+    axios.get("/trashtags")
+        .then((response) => {
+          const cleanups = response.data.cleanups.filter((cleanup) => {
+            return cleanup.cleaned
+          })
+          .sort((cleanup1, cleanup2) => {
+            const date1 = new Date(cleanup1.requested_date)
+            const date2 = new Date(cleanup2.requested_date)
+
+            return date2 - date1
+          })
+          .slice(0, NUMBER_OF_TRENDING)
+          .map((cleanup) => {
+            return {
+              id: cleanup.rID,
+              before: {
+                src: cleanup.request_img,
+                alt: cleanup.location + " request"
+              },
+              after: {
+                src: cleanup.cleaned_img,
+                alt: cleanup.location + " cleaned"
+              }
+            }
+          })
+
+          this.setState({
+            trending: cleanups
+          })
+        })
+        .catch((error) => {
+          // Error getting cleanups
+        })
+  }
+
   render() {
     const featured = [{id: "1",
-                      before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                      before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg",
                       after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
                       {id: "2",
-                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg",
                       after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
                       {id: "3",
-                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg",
                       after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
                       {id: "4",
-                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg",
                       after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
                       {id: "5",
-                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg",
                       after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"},
                       {id: "6",
-                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg", 
+                        before: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_a.jpg",
                       after: "https://trashtag.s3.ca-central-1.amazonaws.com/trash1_b.jpg"}];
 
-    const menuItems = Menu(featured);
+    const menuItems = Menu(this.state.trending);
 
     return (
       <div>
