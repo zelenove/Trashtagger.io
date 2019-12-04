@@ -15,15 +15,15 @@ class Cleanups extends React.Component {
 
     componentDidMount() {
         axios.get("/trashtags", {
-            params: {
-                cleaned: true
-            }
+            // params: {
+            //     cleaned: true
+            // }
         })
         .then((response) => {
             this.setState({
                 cleanups: response.data.cleanups
             })
-            console.log(response.data.cleanups)
+            
         })
         .catch((error) => {
             // Error getting cleanups
@@ -31,7 +31,11 @@ class Cleanups extends React.Component {
     }
 
     render() {
-        const cleanupBlocks = this.state.cleanups.map((cleanup) => {
+
+        console.log(this.state.cleanups)
+        const result = this.state.cleanups.filter(cleanup=> cleanup.cleaned === true);
+        
+        const cleanupBlocks = result.map((cleanup) => {
             const before = {
                 src: cleanup.request_img,
                 alt: cleanup.location + " request"

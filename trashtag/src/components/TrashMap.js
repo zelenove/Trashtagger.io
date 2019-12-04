@@ -40,7 +40,8 @@ class TrashMap extends React.Component {
       markers: [],
       searchResults: [],
       pagination: null,
-      map: null
+      map: null,
+      completed_img_url: ""
       
       
     }
@@ -60,7 +61,7 @@ class TrashMap extends React.Component {
   closeModal() {
     this.setState({ open: false });
   }
-
+ 
   onMarkerClick = (marker) => {
     const { lat, lng } = marker.latLng
     console.log(lat())
@@ -161,10 +162,62 @@ class TrashMap extends React.Component {
     this.getTrash()
   }
 
+  // Create the image upload widget and require square cropping
+    // Callback stores returned img url in state
+  showWidget = () => {
+      window.cloudinary.openUploadWidget({
+          cloudName: "trashcloud",
+          uploadPreset: "trashtag_crop",
+          sources: ["local"],
+          cropping: 'server',
+          multiple: false,
+          resourceType: 'image',
+          singleUploadAutoClose: false,
+          showSkipCropButton: false,
+          croppingAspectRatio: 1,
+          croppingCoordinatesMode: 'custom',
+      }, (error, result) => {
+          if (result && result.event === "success"){
+              console.log(result.info.url);
+              this.setState({
+                  completed_img_url: result.info.url
+              })
+          }
+      });
+    }
+
+    submitRequest = (e) => {
+
+      e.preventDefault()
+      console.log(this.selectedMarker.rID)
+
+
+
+      axios.post("/trashtags/complete-request", {
+        //requested_by:
+        rID: this.selectedMarker.rID,
+        cleanedImg: this.state.completed_img_url
+        
+    }).then(function(res) {
+
+        console.log('submitted')
+      })
+      .catch((error) => {
+          
+        console.log('ERERRE')
+      })
+    }
+  
+
   render() {
     // Some random api key off stack overflow
     const mapURL = 'https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places,geometry&key=AIzaSyA7XEFRxE4Lm28tAh44M_568fCLOP_On3k';
-    const markers = this.state.markers.map((marker) => this.makeMarkerObj(marker))
+    const markers = this.state.markers.map((marker) => {
+      if (!marker.cleaned){
+      return(
+        this.makeMarkerObj(marker))
+      }
+    })
     
     
     const trash_locations = []
@@ -197,6 +250,7 @@ class TrashMap extends React.Component {
 
     const trashInfo = this.state.markers.map((marker) => {
       // Only get the date
+      if (!marker.cleaned){
       const reqDateT = new Date(marker.requested_date)
       const reqDate = reqDateT.getFullYear() + "/" + reqDateT.getMonth()
                       + "/" + reqDateT.getDate()
@@ -209,7 +263,10 @@ class TrashMap extends React.Component {
               </div>
           </button>
       )
+    }
     })
+
+    
 
     const popup_text = (
       <div className="PopupText">
@@ -221,12 +278,15 @@ class TrashMap extends React.Component {
           <p>{this.selectedMarker.requested_by}</p>
           <h3>Requested Date:</h3>
           <p>{this.selectedMarker.requested_date}</p>
-          <h3>Requested Image</h3>
-          <img src={this.selectedMarker.request_img }></img>
+          <h3 >Requested Image</h3>
+          <div ><img  src={this.selectedMarker.request_img }/></div>
+          
 
 
       </div>
     )
+
+
 
     
     return (
@@ -262,8 +322,9 @@ class TrashMap extends React.Component {
                 </a>
                 {popup_text}
                    <br></br>
-                 <button>Complete Request</button>
-                 <button>Submit Finished Picture</button>
+                 <button onClick = {this.showWidget} >Submit Finished Picture</button>
+                 <button onClick = {this.submitRequest}>Complete Request</button>
+                 
 
              </div>
             </Popup>

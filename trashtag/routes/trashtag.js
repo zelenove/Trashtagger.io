@@ -103,7 +103,7 @@ router.post("/trashtags/create-request", checkAuth, (req, res) => {
 
 router.post("/trashtags/complete-request", (req, res) => {
     const { rID, cleanedImg } = req.body
-
+    
     if (typeof rID !== "number") {
         res.status(404).send("That cleanup request does not exist")
     }
@@ -112,19 +112,23 @@ router.post("/trashtags/complete-request", (req, res) => {
     }
     else {
         Trashtag.findByRID(rID).then((cleanupRequest) => {
+           
             if (cleanupRequest.cleaned) {
                 res.status(401).send("That cleanup request has already been completed")
             }
             else {
                 // Find the user to update his cleanups
+                
                 User.findById(req.session.user._id).then((user) => {
+                   
                     cleanupRequest.cleaned = true
                     cleanupRequest.cleaned_by = user.username
                     cleanupRequest.cleaned_date = Date.now()
                     cleanupRequest.cleaned_img = cleanedImg
-
+                    
                     cleanupRequest.save()
                         .then(result => {
+                            
                             user.completed_cleanups.push(result._id)
                             user.save().then((userRes) => {
                                 res.status(200).send({
@@ -145,17 +149,24 @@ router.post("/trashtags/complete-request", (req, res) => {
                                 })
                             })
                         })
-                        .catch(error => {
-                            res.status(500).send("Error completing cleanup request")
+                        .catch((error) => {
+                            console.log(error)
+                            res.status(500).send(error)
                         })
+                }).catch ((error) => {
+                    
+                    res.send(error)
                 })
             }
         })
         .catch((error) => {
+           
             res.status(error.status).send(error.message)
         })
     }
 })
+
+
 
 // To check a user logged in for protected routes
 function checkAuth(req, res, next) {

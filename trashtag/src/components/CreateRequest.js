@@ -21,7 +21,7 @@ class CreateRequest extends React.Component {
 
         this.setState({
             markerPosition: {
-                lat: lat(),
+                lat: lat(), 
                 lng: lng()
             }
         })
@@ -32,7 +32,7 @@ class CreateRequest extends React.Component {
         e.preventDefault()
         console.log("Creating request")
         console.log(this.state.location, this.state.description, this.state.img_url)
-
+        
         axios.post("/trashtags/create-request", {
             //requested_by:
             location: this.state.location,
@@ -40,6 +40,7 @@ class CreateRequest extends React.Component {
             longitude: this.state.markerPosition.lng,
             latitude: this.state.markerPosition.lat,
             requestImg: this.state.img_url
+            
         }).then(function(res) {
 
             console.log('added')

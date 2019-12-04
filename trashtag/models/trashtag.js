@@ -69,6 +69,7 @@ TrashtagSchema.plugin(AutoIncrement, {
 class TrashtagClass {
     // Find by rID, the request number
     static findByRID(rID) {
+      console.log("HERE")
         return new Promise((resolve, reject) => {
                 return this.findOne({
                     rID: rID
