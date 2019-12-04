@@ -100,17 +100,12 @@ class TrashMap extends React.Component {
   }
 
   getTrash = () => {
-    
-
-    
-    const url = 'all-trashtags'
-    
-    axios.get("/all-trashtags", {
+    axios.get("/trashtags", {
     
   }).then((res) => {
      // this.state.markers = res.data.trashtags
       this.setState({
-        markers: res.data.trashtags 
+        markers: res.data.cleanups
       })
      
       
@@ -195,8 +190,23 @@ class TrashMap extends React.Component {
     const mapElement = <div className="trashmap-map-element" />
     const loadingElement = <div className="trashmap-loading-element" />
 
-    
-    const trash_Info = trash_locations.map((location) => (
+    const trash_Info = this.state.markers.map((marker) => {
+      // Only get the date
+      const reqDateT = new Date(marker.requested_date)
+      const reqDate = reqDateT.getFullYear() + "/" + reqDateT.getMonth()
+                      + "/" + reqDateT.getDate()
+      return (
+          <button className="trashmap-info-block">
+              <div className="trashmap-info-text">
+                  <h3>{marker.location}</h3>
+                  <h6>Requested By: {marker.requested_by} on</h6>
+                  {reqDate}
+              </div>
+          </button>
+      )
+    })
+
+    const trashInfo = trash_locations.map((location) => (
       <div className="trashmap-info-block">
         <div className="trashmap-info-text">
           <h3>{location}</h3>
