@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import './assets/css/default.css';
 import Home from './components/Home';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import TrashMapPage from './components/TrashMapPage';
 import { SignIn, Register } from './components/FormPage';
 //import AccountManager from './components/AccountManager';
@@ -79,6 +80,7 @@ class App extends React.Component {
                   <Route path="*" render = {(props) => <Redirect to="/" />} />
                 </Switch>
               </div>
+              <Footer />
           </Router>
       </div>
     );

@@ -76,13 +76,15 @@ class Home extends React.Component {
           </div>
         </div>
         <div className = "trending-container">
-          <h1 className = "trending-heading">Trending This Week:</h1>
+          <h1 className = "trending-heading">TRENDING THIS WEEK:</h1>
           <ScrollMenu
             data={menuItems}
             arrowLeft={ArrowLeft}
             arrowRight={ArrowRight}
             wheel={false}
             scrollToSelected={true}
+            hideArrows={true}
+            hideSingleArrow={true}
           />
         </div>
       </div>

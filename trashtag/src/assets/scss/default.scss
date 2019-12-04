@@ -70,14 +70,19 @@ header {
   background-color: transparent;
 }
 
-footer {
-  position: absolute;
-  display: block;
-  clear: both;
+.footer2 {
+  position: relative;
   width: 100%;
-  color: $white;
-  height: 65px;
+  background-color: black;
+  min-height: 65px;
   bottom: 0;
+  text-align: center;
+  line-height: ce;
+  color: aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
 
   .logo {
     position: absolute;
@@ -342,6 +347,7 @@ footer {
 .trending-container {
   margin: 0 auto;
   width: 75%;
+  padding-bottom: 10%;;
 
 
   h1 {
@@ -381,4 +387,9 @@ footer {
   width: 25%vh;
   max-width: 600px;
   padding: 20px;
+}
+
+.scroll-menu-arrow {
+  font-size: 2em;
+  padding: 10px;
 }
