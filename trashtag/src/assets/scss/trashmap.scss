@@ -77,8 +77,6 @@
     margin: 0px auto;
     width: 50;
     height: auto;
-    background-color: cadetblue;
-    
     padding: 5x;
 
    
@@ -87,6 +85,7 @@
     img { 
         width: 570px; 
         max-height:250px;
+        display: block;
     }  
        
   }  
