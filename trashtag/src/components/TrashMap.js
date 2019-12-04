@@ -269,7 +269,9 @@ class TrashMap extends React.Component {
     
 
     const popup_text = (
-      <div className="PopupText">
+        
+        <div className="PopupText">
+         
         <h3>Location:</h3>
           <p>{this.selectedMarker.location}</p>
           <h3>Description:</h3>
@@ -278,8 +280,13 @@ class TrashMap extends React.Component {
           <p>{this.selectedMarker.requested_by}</p>
           <h3>Requested Date:</h3>
           <p>{this.selectedMarker.requested_date}</p>
-          <h3 >Requested Image</h3>
-          <div ><img  src={this.selectedMarker.request_img }/></div>
+          <h3 >Image </h3>
+          <div classname= "Image">
+            <img  src={this.selectedMarker.request_img }/>
+          </div>
+          
+
+          
           
 
 
@@ -311,7 +318,7 @@ class TrashMap extends React.Component {
               closeOnDocumentClick
               onClose={this.closeModal}
             >
-          <div className="modal">
+          <div className="Popup">
              <a className="close" onClick={this.closeModal}>
               &times;
                 </a>

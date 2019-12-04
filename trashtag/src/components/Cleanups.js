@@ -32,10 +32,10 @@ class Cleanups extends React.Component {
 
     render() {
 
-        console.log(this.state.cleanups)
-        const result = this.state.cleanups.filter(cleanup=> cleanup.cleaned === true);
         
-        const cleanupBlocks = result.map((cleanup) => {
+        const CleanedUp = this.state.cleanups.filter(cleanup=> cleanup.cleaned === true);
+        
+        const cleanupBlocks = CleanedUp.map((cleanup) => {
             const before = {
                 src: cleanup.request_img,
                 alt: cleanup.location + " request"
