@@ -6,9 +6,7 @@
 
 .trashmap-container {
     width: 80%;
-    margin-left: auto;
-  margin-right: auto;
-  padding-bottom: 10px;
+    float: left;
 }
 
 .trashmap-container-half-right {
@@ -18,6 +16,8 @@
 }
 
 .trash-page-container {
+    height: 100%;
+    min-height: 100vh;
     width: 80%;
     margin: 20px auto;
 }
@@ -41,19 +41,12 @@
 .trashmap-all-container {
     height: 100%;
     width: 100%;
-    align-items: center;
 }
 
 .trashmap-search-box {
     margin: 10px auto;
     width: 80%;
-    padding: 5px;
-    align-items: center;
 }
-
-input {
-    width: 100%;
-  }
 
 .trashmap-info-pane {
     height: 80%;
