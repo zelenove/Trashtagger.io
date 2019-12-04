@@ -5,7 +5,7 @@ const { User } = require("../models/user")
 
 /*
     Expecting:
-    No Body
+    No body
 */
 router.get("/users/:username", (req, res) => {
     const { username } = req.params
@@ -152,7 +152,10 @@ router.post("/users/register", (req, res) => {
     }
 });
 
-
+/*
+    Expecting:
+    No body
+*/
 router.post("/users/logout", checkAuth, (req, res) => {
     req.session.destroy((error) => {
         if (error) {

@@ -5,20 +5,39 @@ const validator = require("validator")
 const { Trashtag } = require('../models/trashtag')
 const { User } = require("../models/user")
 
-
+/*
+    Expecting:
+    {
+        (optional) cleaned: bool
+    }
+*/
 router.get('/trashtags', (req, res) => {
-    Trashtag.find().then((trashtags) => {
-        const trashtagsInfo = trashtags.map((trashtag) => {
-            return trashtag.getData()
-        })
+    const { cleaned } = req.query
 
-        res.status(200).send({
-            cleanups: trashtagsInfo
+    if (cleaned && typeof cleaned !== "bool") {
+        res.status(400).send("Cleaned is an invalid type")
+    }
+    else {
+        const query = Trashtag.find()
+
+        if (cleaned !== undefined) {
+            query = query.where("cleaned").equals(cleaned)
+            console.log("yes")
+        }
+
+        query.then((trashtags) => {
+            const trashtagsInfo = trashtags.map((trashtag) => {
+                return trashtag.getData()
+            })
+    
+            res.status(200).send({
+                cleanups: trashtagsInfo
+            })
         })
-    })
-    .catch((error) => {
-        res.status(500).send("Error getting all cleanups")
-    })
+        .catch((error) => {
+            res.status(500).send("Error getting cleanups")
+        })
+    }
 })
 
 router.post("/trashtags/create-request", checkAuth, (req, res) => {
