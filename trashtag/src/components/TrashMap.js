@@ -15,7 +15,7 @@ const RenderMap = withScriptjs(withGoogleMap((props) => {
       defaultZoom={8}
       defaultCenter={{ lat: 43.6532, lng: -79.3832 }}
       onClick={props.onMapClick}
-      ref={props.ref}
+      ref={props.onMapMounted}
     >
       {props.markers}
     </GoogleMap >
@@ -40,13 +40,11 @@ class TrashMap extends React.Component {
       markers: [],
       searchResults: [],
       pagination: null,
-       
+      map: null
       
       
     }
 
-
-    this.map = React.createRef()
     this.selectedMarker = React.createRef()
     this.openModal = this.openModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
@@ -136,10 +134,6 @@ class TrashMap extends React.Component {
     }
 
   makeMarkerObj1 = (marker) => {
-
-    
-    
-    
     return (
       <Marker key={marker.id} name={marker.name} position={marker.position}
         onClick={this.onMarkerClick}>
@@ -150,6 +144,17 @@ class TrashMap extends React.Component {
         </InfoWindow>
       </Marker>
     )
+  }
+
+  onSidePaneClick = (marker) => {
+    this.map.panTo({
+      lat: marker.latitude,
+      lng: marker.longitude
+    })
+  }
+
+  onMapMounted = (map) => {
+    this.map = map
   }
 
   componentDidMount ()  {
@@ -190,30 +195,21 @@ class TrashMap extends React.Component {
     const mapElement = <div className="trashmap-map-element" />
     const loadingElement = <div className="trashmap-loading-element" />
 
-    const trash_Info = this.state.markers.map((marker) => {
+    const trashInfo = this.state.markers.map((marker) => {
       // Only get the date
       const reqDateT = new Date(marker.requested_date)
       const reqDate = reqDateT.getFullYear() + "/" + reqDateT.getMonth()
                       + "/" + reqDateT.getDate()
       return (
-          <button className="trashmap-info-block">
+          <button className="trashmap-info-block" marker={marker}
+              onClick={() => this.onSidePaneClick(marker)}>
               <div className="trashmap-info-text">
-                  <h3>{marker.location}</h3>
-                  <h6>Requested By: {marker.requested_by} on</h6>
-                  {reqDate}
+                  <h2>{marker.location}</h2>
+                  <h4>Requested by {marker.requested_by} on {reqDate}</h4>
               </div>
           </button>
       )
     })
-
-    const trashInfo = trash_locations.map((location) => (
-      <div className="trashmap-info-block">
-        <div className="trashmap-info-text">
-          <h3>{location}</h3>
-         
-        </div>
-      </div>
-    ) )
 
     const popup_text = (
       <div className="PopupText">
@@ -243,7 +239,7 @@ class TrashMap extends React.Component {
               onSearchSelected = {this.onSearchSelected} />
           </div>
           <div className="trashmap-info-pane">
-            {trash_Info}
+            {trashInfo}
           </div>
         </div>
         <RenderMap isMarkerShown={true}
@@ -252,7 +248,7 @@ class TrashMap extends React.Component {
           googleMapURL={mapURL}
           loadingElement={loadingElement}
           markers={markers.concat(propMarkers)}
-          ref={this.map}
+          onMapMounted={this.onMapMounted}
           onMapClick={this.props.onMapClick} />
 
         <Popup

@@ -37,12 +37,23 @@ class App extends React.Component {
     })
   }
 
+  onLogOut = () => {
+    this.setState({
+      userIsLoggedIn: false,
+      user: {
+        username: "Guest"
+      }
+    })
+  }
   componentDidMount() {
     // Check if the user has an active session running
     axios.get("/auth")
       .then((response) => {
         // A session already exists
         this.onLogIn(response)
+      })
+      .catch((error) => {
+        // Nothing needs to be done if not authorized
       })
   }
 
@@ -63,7 +74,7 @@ class App extends React.Component {
                   <Route exact path = "/create-request" component = {CreateRequest} />
                   <Route exact path = "/cleanups" component = {Cleanups} />
                   <Route exact path = "/profile" render = {(props) => <Profile user={this.state.user} />} />
-                  <Route exact path = "/logout" component = {Logout} />
+                  <Route exact path = "/logout" render = {(props) => <Logout onLogOut={this.onLogOut} />} />
                   <Route path = "/user/:username" component = {ProfilePage} />
                   <Route path="*" render = {(props) => <Redirect to="/" />} />
                 </Switch>

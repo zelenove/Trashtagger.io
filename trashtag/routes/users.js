@@ -154,8 +154,14 @@ router.post("/users/register", (req, res) => {
 
 
 router.post("/users/logout", checkAuth, (req, res) => {
-    req.logout()
-    res.sendStatus(200)
+    req.session.destroy((error) => {
+        if (error) {
+            res.status(500).send("There was an error logging out")
+        }
+        else {
+            res.sendStatus(200)
+        }
+    })
 })
 
 // To check a user logged in for protected routes

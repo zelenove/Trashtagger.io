@@ -21,7 +21,7 @@ router.get('/trashtags', (req, res) => {
     })
 })
 
-router.post("/trashtags/create", checkAuth, (req, res) => {
+router.post("/trashtags/create-request", checkAuth, (req, res) => {
     const { longitude, latitude, location, description, requestImg } = req.body
 
     // Verify input here

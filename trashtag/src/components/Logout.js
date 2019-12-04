@@ -5,22 +5,24 @@ import axios from "axios"
 class Logout extends React.Component {
     constructor() {
         super()
-        this.setState({
+        this.state = {
             loggedOut: false
-        })
+        }
     }
 
     componentDidMount() {
         // Check if the user has an active session running
-        axios.get("/logout")
+        axios.post("/users/logout")
             .then((response) => {
                 // A session already exists
                 this.setState({
                     loggedOut: true
                 })
+
+                this.props.onLogOut()
             })
             .catch((error) => {
-                // Already logged out, so just redirect
+                // Already logged out, or an error, just redirect
                 this.setState({
                     loggedOut: true
                 })

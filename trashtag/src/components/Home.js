@@ -70,7 +70,7 @@ class Home extends React.Component {
               HELP KEEP YOUR<br />COMMUNITY CLEAN.
             </h1>
             <button
-                className = "hero-button button-transparent button-border-lg">
+                className = "submit-button hero-button button-transparent button-border-lg">
                 LEARN MORE
             </button>
           </div>

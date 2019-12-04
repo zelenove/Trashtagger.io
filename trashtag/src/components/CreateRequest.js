@@ -30,10 +30,10 @@ class CreateRequest extends React.Component {
     // To be used only if a user is logged in
     createCleanupRequest = (e) => {
         e.preventDefault()
-
+        console.log("Creating request")
         console.log(this.state.location, this.state.description, this.state.img_url)
 
-        axios.post("/trashtags/create", {
+        axios.post("/trashtags/create-request", {
             //requested_by:
             location: this.state.location,
             description: this.state.description,
@@ -45,6 +45,8 @@ class CreateRequest extends React.Component {
             console.log('added')
           })
           .catch((error) => {
+              console.log(error)
+              console.log(this.state)
             console.log('ERERRE')
           })
 
@@ -155,7 +157,6 @@ class CreateRequest extends React.Component {
                                 value= {this.state.description}
                                 required />
                         </div>
-
                         <div className="trash-map-embed">
                             <TrashMap
                                 onMapClick={this.moveMarker}
@@ -163,7 +164,9 @@ class CreateRequest extends React.Component {
                                 containerElement={<div className="trashmap-container-half-right" />} />
                         </div>
                         <div>
-                            <button className="button-border-g" onClick={this.showWidget}>Upload Photo</button>
+                            <button className="submit-button button-border-g"
+                                type="button"
+                                onClick={this.showWidget}>Upload Photo</button>
                         </div>
                         <input type="submit"
                             className="form-submit button-border-g"
