@@ -102,8 +102,7 @@ header {
 
 .page-container {
   width: 100%;
-  height: 100%;
-  min-height: 100vh;
+  min-height: 80vh;
 }
 
 .text-center {
@@ -300,7 +299,7 @@ header {
 .form-input {
   position: relative;
   width: 80%;
-  margin-bottom: 45px;
+  margin-bottom: 20px;
 
   label {
       color: $black;
@@ -310,6 +309,10 @@ header {
       top: 5px;
       transition: all 0.2s ease;
   }
+}
+
+input {
+  width: 80%;
 }
 
 .form-field, .form-text-area {
@@ -347,7 +350,7 @@ header {
 .trending-container {
   margin: 0 auto;
   width: 75%;
-  padding-bottom: 10%;;
+  padding-bottom: 5%;;
 
 
   h1 {
