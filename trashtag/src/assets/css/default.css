@@ -92,6 +92,16 @@ div {
 .trashmap-info-text {
   margin-left: 10px; }
 
+.PopupText {
+  margin: 0px auto;
+  width: 50;
+  height: auto;
+  padding: 5x; }
+  .PopupText img {
+    width: 570px;
+    max-height: 250px;
+    display: block; }
+
 body {
   min-height: 100%;
   width: 100%;

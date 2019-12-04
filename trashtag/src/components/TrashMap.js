@@ -229,7 +229,9 @@ class TrashMap extends React.Component {
     })
 
     const popup_text = (
-      <div className="PopupText">
+
+        <div className="PopupText">
+
         <h3>Location:</h3>
           <p>{this.state.selectedMarker.location}</p>
           <h3>Description:</h3>
@@ -273,7 +275,7 @@ class TrashMap extends React.Component {
               closeOnDocumentClick
               onClose={this.closeModal}
             >
-          <div className="modal">
+          <div className="Popup">
              <a className="close" onClick={this.closeModal}>
               &times;
                 </a>
