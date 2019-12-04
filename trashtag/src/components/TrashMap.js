@@ -298,12 +298,17 @@ class TrashMap extends React.Component {
     
     return (
       <div className="trashmap-all-container">
+      <div className="trashmap-sidepane">
         <div className="trashmap-search-box">
-            <SearchBoxPane
-              googleMapURL={mapURL}
-              loadingElement={<div className="trashmap-search-box" />}
-              onSearchSelected = {this.onSearchSelected} />
-          </div>
+          <SearchBoxPane
+            googleMapURL={mapURL}
+            loadingElement={<div className="trashmap-search-box" />}
+            onSearchSelected = {this.onSearchSelected} />
+        </div>
+        <div className="trashmap-info-pane">
+          {trashInfo}
+        </div>
+      </div>
         <RenderMap isMarkerShown={true}
           containerElement={mapContainer}
           mapElement={mapElement}
