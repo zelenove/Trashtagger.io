@@ -48,9 +48,9 @@ class Profile extends React.Component {
                                 {title}
                             </div>
                             <div className="profile-info-block">
-                                Cleanups Requested: {this.props.user.requestedCleanups.length}
+                                Cleanups Requested: {this.props.user.requested_cleanups.length}
                                 <br />
-                                Cleanups Completed: {this.props.user.completedCleanups.length}
+                                Cleanups Completed: {this.props.user.completed_cleanups.length}
                             </div>
                         </div>
                         <div className="profile-description">
