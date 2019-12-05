@@ -1,6 +1,7 @@
 # team40
 ## TrashTag
 ### Phase 1 (Late 1 Day)
+### Phase 2 (Late 1 Day)
 ### Building The Site
 ### `npm install` or `npm install --force`
 Installs all requires packages that the project uses. Dependencies specifications in package.json
