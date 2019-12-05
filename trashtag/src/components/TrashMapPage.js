@@ -8,7 +8,8 @@ class TrashMapPage extends React.Component {
         return (
             <div className="trash-page-container">
                 <TrashMap
-                    containerElement={<div className="trashmap-container-full" />} />
+                    containerElement={<div className="trashmap-container-full"
+                    updateUser={this.props.updateUser} />} />
             </div>
         )
     }

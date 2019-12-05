@@ -49,7 +49,9 @@ class Cleanups extends React.Component {
             return (
                 <Link to={"/user/" + cleanup.cleaned_by} className="trending-block">
                     <h2>{cleanup.location} by {cleanup.cleaned_by}</h2>
-                    <Combiner before={before} after={after} />
+                    <div className="trending-combine-container">
+                        <Combiner before={before} after={after} />
+                    </div>
                 </Link>
             );
         });

@@ -46,6 +46,7 @@ class CreateRequest extends React.Component {
             this.setState({
               requestedSubmitted: true
             })
+            this.props.updateUser()
           })
           .catch((error) => {
               console.log(error)

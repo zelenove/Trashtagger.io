@@ -43,6 +43,9 @@ app.use("/auth", (req, res) => {
             user: {
                 username: req.session.user.username,
                 email: req.session.user.email,
+                quote: req.session.user.quote,
+                about_me: req.session.user.about_me,
+                picture_url: req.session.user.picture_url,
                 requested_cleanups: req.session.user.requested_cleanups,
                 completed_cleanups: req.session.user.completed_cleanups
             }

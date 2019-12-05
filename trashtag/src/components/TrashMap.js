@@ -185,6 +185,8 @@ class TrashMap extends React.Component {
 
     }).then((res) => {
       console.log('submitted')
+      this.closeModal()
+      this.props.updateUser()
     })
     .catch((error) => {
       console.log('ERERRE')

@@ -11,7 +11,7 @@ import { SignIn, Register } from './components/FormPage';
 import CreateRequest from "./components/CreateRequest";
 import Cleanups from "./components/Cleanups";
 import Profile from "./components/Profile";
-import ProfilePage from "./components/ProfilePage";
+import { ProfilePage } from "./components/ProfilePage";
 import Logout from "./components/Logout"
 
 // Configure axios
@@ -46,7 +46,8 @@ class App extends React.Component {
       }
     })
   }
-  componentDidMount() {
+
+  updateUser = () => {
     // Check if the user has an active session running
     axios.get("/auth")
       .then((response) => {
@@ -58,6 +59,10 @@ class App extends React.Component {
       })
   }
 
+  componentDidMount() {
+    this.updateUser()
+  }
+
   render() {
     return (
       <div className="App">
@@ -67,14 +72,15 @@ class App extends React.Component {
               <div className = "page-container">
                 <Switch>
                   <Route exact path = "/" component = {Home} />
-                  <Route exact path = "/trash-map" component = {TrashMapPage} />
+                  <Route exact path = "/trash-map" render = {(props) => <TrashMapPage updateUser={this.updateUser} />} />
                   <Route exact path = "/register" render = {(props) => <Register loginCallback={this.onLogIn}
                                                                           loggedIn={this.state.userIsLoggedIn} />} />
                   <Route exact path = "/sign-in" render = {(props) => <SignIn loginCallback={this.onLogIn}
                                                                           loggedIn={this.state.userIsLoggedIn} />} />
-                  <Route exact path = "/create-request" component = {CreateRequest} />
+                  <Route exact path = "/create-request" render = {(props) => <CreateRequest updateUser={this.updateUser} />} />
                   <Route exact path = "/cleanups" component = {Cleanups} />
-                  <Route exact path = "/profile" render = {(props) => <Profile user={this.state.user} />} />
+                  <Route path = "/profile" render = {(props) => <Profile user={this.state.user}
+                                                                          updateUser={this.updateUser} />} />
                   <Route exact path = "/logout" render = {(props) => <Logout onLogOut={this.onLogOut} />} />
                   <Route path = "/user/:username" component = {ProfilePage} />
                   <Route path="*" render = {(props) => <Redirect to="/" />} />

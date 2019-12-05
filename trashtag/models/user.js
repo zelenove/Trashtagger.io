@@ -37,6 +37,18 @@ const UserSchema = new mongoose.Schema({
 		trim: true,
 		minlength: 6
 	},
+	quote: {
+		type: String,
+		default: ""
+	},
+	aboutMe: {
+		type: String,
+		default: ""
+	},
+	picture_url: {
+		type: String,
+		default: "https://hamiltonrykerit.com/wp-content/uploads/2015/07/blank-user.jpg" // Generic person picture
+	},
 	requested_cleanups: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
@@ -194,6 +206,9 @@ class UserClass {
 		return {
 			username: this.username,
 			email: this.email,
+			quote: this.quote,
+			about_me: this.about_me,
+			picture_url: this.picture_url,
 			requested_cleanups: requested,
 			completed_cleanups: cleaned
 		}

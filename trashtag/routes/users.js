@@ -19,9 +19,58 @@ router.get("/users/:username", (req, res) => {
             res.status(200).send({
                 user: {
                     username: userData.username,
+                    quote: userData.quote,
+                    about_me: userData.about_me,
+                    picture_url: userData.picture_url,
                     requested_cleanups: userData.requested_cleanups,
                     completed_cleanups: userData.completed_cleanups
                 }
+            })
+        })
+        .catch((error) => {
+            res.status(error.status).send(error.message)
+        })
+    }
+})
+
+/*
+    Expecting:
+    {
+        quote: string,
+        about_me: string,
+        picture_url: string
+    }
+*/
+router.patch("/users/:username", checkAuth, (req, res) => {
+    const { username } = req.params
+    const { quote, about_me, picture_url } = req.body
+
+    // Verify input here
+    if (req.session.user.username !== username) {
+        res.status(401).send("You are not authorized to edit this profile")
+    }
+    else if (typeof quote !== "string") {
+        res.status(400).send("That location name is invalid")
+    }
+    else if (typeof about_me !== "string" || about_me.length > 256) {
+        res.status(400).send("That description is invalid")
+    }
+    else if (typeof picture_url !== "string" || !validator.isURL(picture_url)) {
+        res.status(400).send("Invalid image")
+    }
+    else {
+        User.findByUsername(username).then((user) => {
+            user.quote = quote
+            user.about_me = about_me
+            user.picture_url = picture_url
+
+            user.save().then((newUser) => {
+                res.status(200).send({
+                    user: newUser.getData() 
+                })
+            })
+            .catch((error) => {
+                res.status(500).send("Error updating user")
             })
         })
         .catch((error) => {
