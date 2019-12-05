@@ -31,7 +31,7 @@ Runs the app in the development mode at [http://localhost:3000](http://localhost
 
 ### User Instructions
 * Currently, it is not requires to require an account to make requests on the request page.
-* The login credentials for debugging/testing the website is `user:user` or `admin:admin`
+* The login credentials for debugging/testing the website is `user:user12` or `admin:admin1` (to fulfill password requirements)
   * A successful registration should redirect you back to the login page where credentials should be saved for logging in.
   * A successful login should redirect you back to the homepage.
   * However, unsuccessful login/registration(user already exists or incorrect credentials) would do nothing and stays on the page you were on.
